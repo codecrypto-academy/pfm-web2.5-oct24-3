@@ -1,0 +1,41 @@
+/* front/src/components/Footer.css */
+
+.footer {
+    width: 100%; /* Abarca todo el ancho de la pantalla */
+    background: linear-gradient(90deg, #2b2d42, #1a1b26);
+    color: #ffffff;
+    padding: 20px 0;
+  }
+  
+  .footer-container {
+    max-width: 1200px; /* Ajusta el ancho máximo del contenido */
+    margin: auto; /* Centra el contenido horizontalmente */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .links a {
+    color: #ffffff;
+    margin: 0 15px;
+    text-decoration: none;
+  }
+  
+  .links a:hover {
+    color: #4e7dd9;
+  }
+  
+  .social-icons a {
+    margin: 0 10px;
+  }
+  
+  .social-icons img {
+    height: 24px;
+    width: 24px;
+    filter: invert(1);
+  }
+  
+  .social-icons a:hover img {
+    filter: invert(0.5);
+  }
+  
