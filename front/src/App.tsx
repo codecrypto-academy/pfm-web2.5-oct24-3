@@ -1,4 +1,3 @@
-// src/App.tsx
 import { Routes, Route } from "react-router-dom";
 import Home from "./components/Home";
 import ListNetworks from "./components/ListNetworks";
@@ -12,10 +11,11 @@ import Faucet from "./components/Faucet";
 import Bloques from "./components/Bloques";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
+import "./App.css"; // Asegúrate de importar el CSS actualizado
 
 function App() {
   return (
-    <>
+    <div className="App">
       <Header />
       <div className="main-content">
         <Routes>
@@ -33,7 +33,7 @@ function App() {
         </Routes>
       </div>
       <Footer />
-    </>
+    </div>
   );
 }
 

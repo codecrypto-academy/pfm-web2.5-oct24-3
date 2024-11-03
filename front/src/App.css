@@ -1,29 +1,69 @@
-/* front/src/App.css */
-
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-body, html, #root, .App {
+/* Configuración del fondo de puntos en todo el fondo */
+body, html, #root {
   height: 100%;
   background-color: #1a1b26;
+  background-image: radial-gradient(#2e2f3e 1px, transparent 1px);
+  background-size: 10px 10px;
   color: #ffffff;
   font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
 }
 
+/* Estilos para el contenedor de la aplicación */
 .App {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
 }
 
-.content {
+/* Estructura del contenido principal */
+.main-content {
   flex: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   padding: 20px;
+  background-color: rgba(0, 0, 0, 0.5); /* Transparencia ajustada para mostrar fondo */
 }
+
+.container {
+  padding: 10px 20px;
+}
+
+button, .btn {
+  background-color: #4f5d75;
+  color: #ffffff;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+button:hover, .btn:hover {
+  background-color: #68789c;
+}
+
+header, footer {
+  background-color: #2b2d42;
+  color: #edf2f4;
+  padding: 15px;
+  text-align: center;
+  width: 100%;
+}
+
+header a, footer a {
+  color: #8d99ae;
+  text-decoration: none;
+  margin: 0 10px;
+}
+
+header a:hover, footer a:hover {
+  color: #ffffff;
+}
+
+/* Importación de los estilos específicos de ListNetworks y NetworkCard */
+@import './components/ListNetworks.css';
+@import './components/NetworkCard.css';

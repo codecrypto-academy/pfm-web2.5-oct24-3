@@ -1,0 +1,60 @@
+.network-cards {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    padding: 20px;
+    justify-content: center;
+  }
+  
+  .network-card {
+    background-color: #2b2d42;
+    color: #edf2f4;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    width: 300px;
+    transition: transform 0.3s;
+  }
+  
+  .network-card:hover {
+    transform: translateY(-5px);
+  }
+  
+  .network-card.up {
+    border-left: 5px solid #4caf50; /* Verde si la red está activa */
+  }
+  
+  .network-card.down {
+    border-left: 5px solid #f44336; /* Rojo si la red está inactiva */
+  }
+  
+  .network-card h2 {
+    font-size: 1.5em;
+    margin-bottom: 10px;
+  }
+  
+  .network-card p {
+    margin: 5px 0;
+  }
+  
+  .network-card-buttons {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+  }
+  
+  .network-card-buttons button {
+    background-color: #4f5d75;
+    color: #ffffff;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+    flex: 1;
+  }
+  
+  .network-card-buttons button:hover {
+    background-color: #68789c;
+  }
+  
