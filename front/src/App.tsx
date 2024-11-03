@@ -13,11 +13,11 @@ import Header from "./components/Header";
 import Footer from "./components/Footer";
 import "./App.css"; // Asegúrate de importar el CSS actualizado
 
-function App() {
+export default function App() {
   return (
     <div className="App">
       <Header />
-      <div className="main-content">
+      <main className="main-content">
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/net/add" element={<AddNetwork />} />
@@ -31,10 +31,8 @@ function App() {
             <Route path="blocks" element={<Bloques />} />
           </Route>
         </Routes>
-      </div>
+      </main>
       <Footer />
     </div>
   );
 }
-
-export default App;
