@@ -1,5 +1,6 @@
 // front/src/components/Header.tsx
 import React from 'react';
+import { Link } from 'react-router-dom';
 import './Header.css';
 
 function Header() {
@@ -11,9 +12,9 @@ function Header() {
           <h1>Build Private Ethereum Networks</h1>
         </div>
         <nav className="nav">
-          <a href="#swap">Swap</a>
-          <a href="#liquidity">Liquidity</a>
-          <a href="#portfolio">Portfolio</a>
+          <Link to="/swap">Swap</Link>
+          <Link to="/liquidity">Liquidity</Link>
+          <Link to="/portfolio">Portfolio</Link>
         </nav>
         <button className="connect-wallet">Connect Wallet</button>
       </div>
@@ -22,4 +23,5 @@ function Header() {
 }
 
 export default Header;
+
 

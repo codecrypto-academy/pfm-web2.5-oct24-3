@@ -1,18 +1,19 @@
 /* front/src/components/Header.css */
 
 .header {
-    width: 100%; /* Abarca todo el ancho de la pantalla */
-    background: linear-gradient(90deg, #1a1b26, #2b2d42);
-    color: #ffffff;
+    width: 100%;
+    background-color: #333;
+    color: white;
+    padding: 1rem 0;
   }
   
   .header-container {
-    max-width: 1200px; /* Ajusta el ancho máximo del contenido */
-    margin: auto; /* Centra el contenido horizontalmente */
+    max-width: 1200px;
+    margin: 0 auto;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 20px;
+    padding: 0 1rem;
   }
   
   .logo {
@@ -21,42 +22,30 @@
   }
   
   .logo-image {
-    height: 52px;
-    width: auto;
+    width: 50px; /* Ajusta el tamaño de la imagen */
     margin-right: 10px;
-    filter: brightness(0) invert(1);
-  }
-  
-  .logo h1 {
-    font-size: 1.5rem;
-    font-weight: bold;
-    color: #ffffff;
   }
   
   .nav a {
-    color: #ffffff;
-    margin: 0 15px;
+    color: #61dafb;
     text-decoration: none;
-    font-weight: bold;
-    transition: color 0.3s;
+    margin: 0 1rem;
   }
   
   .nav a:hover {
-    color: #4e7dd9;
+    color: #21a0f6;
   }
   
   .connect-wallet {
-    background-color: #4e7dd9;
-    color: #ffffff;
-    padding: 10px 20px;
+    background-color: #61dafb;
+    color: #333;
+    padding: 0.5rem 1rem;
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    font-weight: bold;
-    transition: background-color 0.3s;
   }
   
   .connect-wallet:hover {
-    background-color: #3c5bbf;
+    background-color: #21a0f6;
   }
   
