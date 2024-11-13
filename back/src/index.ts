@@ -247,6 +247,11 @@ UNLOCK=${fs.readFileSync(`${pathNetwork}/address.txt`).toString().trim()}
     return file
 }
 
+
+
+
+
+
 app.get('/up/:id', async (req: Request, res: Response) => {
 
     const { id } = req.params;
