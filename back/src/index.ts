@@ -11,7 +11,7 @@ app.use(cors());
 
 const port = 3333;
 
-const DIR_BASE = path.join(__dirname, 'datos');
+const DIR_BASE = path.join(__dirname, '..', 'datos');
 const DIR_NETWORKS = path.join(DIR_BASE, 'networks');
 
 function existeNetwork(id: string, networksDB: any): boolean {
