@@ -156,44 +156,6 @@ app.get('/up/:id', async (req: Request, res: Response) => {
 });
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//Peticion Get
-app.get('/:p1/:p2/:p3', (req: Request, res: Response) => {
-    const { p1, p2, p3 } = req.params
-    res.send(
-        { p1, p2, p3 }
-    )
-});
-
-//Peticion Post
-app.post('/', (req: Request, res: Response) => {
-    const body = req.body
-    res.send(
-        body
-    );
-});
-
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`)
 })
