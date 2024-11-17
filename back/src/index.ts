@@ -4,6 +4,8 @@ import express from 'express';
 import { Request, Response } from 'express';
 import cors from 'cors';
 import { execSync } from 'child_process';
+import { creaContraseña, existeDir, existeNetwork } from './utils/utils';
+import { createNodoMiner, createNodoNormal, createNodoRpc } from './utils/nodos';
 
 const app = express();
 app.use(express.json());
@@ -13,37 +15,6 @@ const PORT = 3333;
 
 const DIR_BASE = path.join(__dirname, '..', 'datos');
 const DIR_NETWORKS = path.join(DIR_BASE, 'networks');
-
-function existeNetwork(id: string, networksDB: any): boolean {
-
-    const network = networksDB.find((i: { id: string; }) => i.id == id);
-
-    if (network) {
-        return true;
-    } else {
-        return false;
-    }
-
-}
-
-function creaContraseña(): string {
-    const caracteres = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    let resultado = '';
-    for (let i = 0; i < 15; i++) {
-        const indiceAleatorio = Math.floor(Math.random() * caracteres.length);
-        resultado += caracteres[indiceAleatorio];
-    }
-    return resultado;
-}
-
-function existeDir(dir: string): boolean {
-    try {
-        return fs.existsSync(dir) && fs.lstatSync(dir).isDirectory();
-    } catch (error) {
-        console.error('Error al verificar el directorio', error)
-        return false;
-    }
-}
 
 function creaDirectorioNetwork(pathNetwork: string) {
 
@@ -101,84 +72,6 @@ function createBootnode(network: any) {
     return bootnode;
 }
 
-function createNodoMiner(nodo: any) {
-    const miner = `
-    ${nodo.name}:
-        image: ethereum/client-go:v1.13.15
-        volumes:
-            - ./${nodo.name}:/root/.ethereum
-            - ./genesis.json:/root/genesis.json
-            - ./password.txt:/root/.ethereum/password.sec
-            - ./keystore:/root/.ethereum/keystore
-        depends_on:
-            - geth-bootnode
-        networks:
-            ethnetwork:
-                ipv4_address: ${nodo.ip}
-        entrypoint: sh -c 'geth init
-            /root/genesis.json && geth
-            --nat "extip:${nodo.ip}"
-            --netrestrict=\${SUBNET}
-            --bootnodes="\${BOOTNODE}"
-            --miner.etherbase \${ETHERBASE}
-            --mine
-            --unlock \${UNLOCK}
-            --password /root/.ethereum/password.sec'
-
-`
-    return miner;
-}
-
-function createNodoRpc(nodo: any) {
-    const rpc = `
-    ${nodo.name}:
-        image: ethereum/client-go:v1.13.15
-        volumes:
-            - ./${nodo.name}:/root/.ethereum
-            - ./genesis.json:/root/genesis.json
-        depends_on:
-             - geth-bootnode
-        networks:
-            ethnetwork:
-                    ipv4_address: ${nodo.ip}
-        ports:
-            - "${nodo.port}:8545"
-        entrypoint: sh -c 'geth init
-            /root/genesis.json && geth
-            --netrestrict=\${SUBNET}
-            --bootnodes="\${BOOTNODE}"
-            --nat "extip:${nodo.ip}"
-            --http
-            --http.addr "0.0.0.0"
-            --http.port 8545
-            --http.corsdomain "*"
-            --http.api "admin,eth,debug,miner,net,txpool,personal,web3"'
-    `
-    return rpc
-}
-
-function createNodoNormal(nodo: any) {
-    const n =
-        `
-    ${nodo.name}:
-        image: ethereum/client-go:v1.13.15
-        volumes:
-            - ./${nodo.name}:/root/.ethereum
-            - ./genesis.json:/root/genesis.json
-        depends_on:
-            - geth-bootnode
-        networks:
-            ethnetwork:
-                    ipv4_address: ${nodo.ip}
-        entrypoint: sh -c 'geth init
-            /root/genesis.json && geth
-            --bootnodes="\${BOOTNODE}"
-            --nat "extip:${nodo.ip}"
-            --netrestrict=\${SUBNET}  ' `
-    return n;
-
-}
-
 function createNodo(nodo: any) {
     switch (nodo.type) {
         case 'miner':
@@ -225,10 +118,6 @@ UNLOCK=${fs.readFileSync(`${pathNetwork}/address.txt`).toString().trim()}
     fs.writeFileSync(path.join(pathNetwork, '.env'), file);
     return file
 }
-
-
-
-
 
 
 app.get('/up/:id', async (req: Request, res: Response) => {
