@@ -2,7 +2,7 @@ import * as fs from 'fs';
 
 export function existeNetwork(id: string, networksDB: any): boolean {
 
-    const network = networksDB.find((i: { id: string; }) => i.id == id);
+    const network = networksDB.find((i: any) => i.id == id);
 
     if (network) {
         return true;

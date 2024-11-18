@@ -120,7 +120,7 @@ UNLOCK=${fs.readFileSync(`${pathNetwork}/address.txt`).toString().trim()}
 }
 
 
-app.get('/up/:id', async (req: Request, res: Response) => {
+app.get('network/up/:id', async (req: Request, res: Response) => {
 
     const { id } = req.params;
     const networksDB = JSON.parse(fs.readFileSync(path.join(DIR_BASE, 'networks.json')).toString());
@@ -149,6 +149,32 @@ app.get('/up/:id', async (req: Request, res: Response) => {
         console.log(`EJECUTADO`)
 
         res.status(200).send('ok');
+
+    } else {
+        res.status(404).send(`No se ha encontrado la red ${id}`);
+    }
+});
+
+app.delete('network/delete/:id', async (req: Request, res: Response) => {
+
+    const { id } = req.params;
+    const pathNetwork = path.join(DIR_NETWORKS, id);
+
+    if (existeDir(pathNetwork)) {
+
+        // Borramos contenedores de Docker
+        const dockerComposePath = path.join(pathNetwork, 'docker-compose.yml');
+        execSync(`docker-compose -f ${dockerComposePath} down`);
+
+        // Borramos directorio de la red
+        fs.rmdirSync(pathNetwork, { recursive: true });
+
+        // Borramos la red de network.json
+        const networksDB = JSON.parse(fs.readFileSync(path.join(DIR_BASE, 'networks.json')).toString());
+        const networksDBUpdated = networksDB.filter((network: any) => network.id !== id);
+        fs.writeFileSync(path.join(DIR_BASE, 'networks.json'), JSON.stringify(networksDBUpdated, null, 4));
+
+        res.status(204).send();
 
     } else {
         res.status(404).send(`No se ha encontrado la red ${id}`);
