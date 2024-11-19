@@ -1,9 +1,9 @@
 import path from 'path';
 import fs from 'fs';
 import { Network } from '../models/network.model';
-import { NetworkAlreadyExistsError, NetworkSaveError, NoFileExistsError } from '../errors/customErrors';
+import { NetworkAlreadyExistsError, NetworkNotFoundError, NetworkSaveError, NoFileExistsError } from '../errors/customErrors';
 
-const FILE_PATH_NETWORKS = path.join(__dirname, '..', 'datos', 'networks.json');
+const FILE_PATH_NETWORKS = path.join(__dirname, '..', '..', 'datos', 'networks.json');
 
 export class NetworkService {
 
@@ -42,8 +42,15 @@ export class NetworkService {
         return await this.readNetworksFromFile();
     }
 
-    public async getNetworkById(networkId: Network["id"]): Promise<Network | null> {
-        return (await this.readNetworksFromFile()).find(net => net.id === networkId) || null;
+    public async getNetworkById(networkId: Network["id"]): Promise<Network> {
+
+        const network = (await this.readNetworksFromFile()).find(net => net.id === networkId);
+
+        if (network) {
+            return network;
+        } else {
+            throw new NetworkNotFoundError();
+        }
     }
 
     public async saveNetwork(network: Network): Promise<Network> {

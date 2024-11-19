@@ -18,3 +18,10 @@ export class NetworkSaveError extends Error {
         this.name = "NetworkSaveError";
     }
 }
+
+export class NetworkNotFoundError extends Error {
+    constructor() {
+        super("Network no encontrada");
+        this.name = "NetworkNotFoundError";
+    }
+}

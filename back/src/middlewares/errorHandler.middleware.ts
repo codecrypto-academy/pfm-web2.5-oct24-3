@@ -30,6 +30,12 @@ export const errorHandler = (err: any, req: Request, res: Response, next: NextFu
         });
     }
 
+    if (err.name === "NetworkNotFoundError") {
+        return res.status(404).json({
+            message: err.message
+        });
+    }
+
     // 3. Manejar errores genéricos
     res.status(500).json({
         message: "Error interno del servidor",
