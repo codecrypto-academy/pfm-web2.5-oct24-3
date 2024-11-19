@@ -13,7 +13,8 @@ export class NetworkController {
             const networkList = await networkService.getAllNetworks();
 
             res.status(200).json({
-                networkList: networkList
+                status: "success",
+                data: {networkList: networkList}
             });
 
         } catch (error) {
@@ -30,7 +31,8 @@ export class NetworkController {
             const network = await networkService.getNetworkById(id);
 
             res.status(200).json({
-                network: network
+                status: "success",
+                data: {network: network}
             });
 
         } catch (error) {
@@ -47,8 +49,8 @@ export class NetworkController {
             const savedNetwork = await networkService.saveNetwork(validateNetwork);
 
             res.status(201).json({
-                message: "Network creada exitosamente",
-                network: savedNetwork
+                status: "success",
+                data: {network: savedNetwork}
             });
 
         } catch (error) {

@@ -6,39 +6,49 @@ export const errorHandler = (err: any, req: Request, res: Response, next: NextFu
     // 1. Manejar errores de validación (Zod)
     if (err instanceof ZodError) {
         return res.status(400).json({
-            message: "Error de validación",
-            errors: err.errors,
+            status: "error",
+            message: `Error de validacion: ${err.errors}`,
+            code: 400
         });
     }
 
     // 2. Manejar errores personalizados
     if (err.name === "NoFileExistsError") {
         return res.status(500).json({
-            message: err.message
+            status: "error",
+            message: err.message,
+            code: 500
         });
     }
 
     if (err.name === "NetworkAlreadyExistsError") {
         return res.status(409).json({
-            message: err.message
+            status: "error",
+            message: err.message,
+            code: 409
         });
     }
 
     if (err.name === "NetworkSaveError") {
         return res.status(500).json({
-            message: err.message
+            status: "error",
+            message: err.message,
+            code: 500
         });
     }
 
     if (err.name === "NetworkNotFoundError") {
         return res.status(404).json({
-            message: err.message
+            status: "error",
+            message: err.message,
+            code: 404
         });
     }
 
     // 3. Manejar errores genéricos
     res.status(500).json({
-        message: "Error interno del servidor",
-        error: err.message,
+        status: "error",
+        message: `Error interno del servidor: ${err.errors}`,
+        code: 500
     });
 };
