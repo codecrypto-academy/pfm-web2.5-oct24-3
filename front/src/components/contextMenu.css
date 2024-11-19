@@ -1,59 +1,82 @@
-/* front/src/components/contextMenu.css */
-
 .context-menu {
-    background-color: #2c2f3b;
-    padding: 20px;
-    width: 300px;
-    border-radius: 8px;
-    color: #ffffff;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-  }
-  
-  .context-menu h2 {
-    font-size: 1.5rem;
-    margin-bottom: 15px;
-  }
-  
-  .context-menu .info-section {
-    margin-bottom: 20px;
-  }
-  
-  .context-menu .info-section h3 {
-    font-size: 1.2rem;
-    margin-bottom: 10px;
-  }
-  
-  .context-menu .info-section p {
-    font-size: 0.9rem;
-    line-height: 1.5;
-  }
-  
-  .context-menu .button-group {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
-  
-  .context-menu button {
-    background-color: #4f5d75;
-    color: #ffffff;
-    padding: 10px 15px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  
-  .context-menu button:hover {
-    background-color: #68789c;
-  }
-  
-  .context-menu .create-network {
-    background-color: #17a2b8;
-    color: #ffffff;
-  }
-  
-  .context-menu .create-network:hover {
-    background-color: #138496;
-  }
-  
+  position: fixed;
+  top: 10%;
+  right: 5%;
+  background-color: #2c2f3b;
+  padding: 20px;
+  width: 800px; /* Tamaño anterior */
+  height: 90%; /* Tamaño anterior */
+  border-radius: 10px;
+  color: #ffffff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+  overflow-y: auto; /* Mantener por si es necesario */
+}
+
+.context-menu h2 {
+  font-size: 1.5rem;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+.context-menu form {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.context-menu label {
+  font-size: 0.8rem; /* Reducido drásticamente */
+  margin-bottom: 4px;
+}
+
+.context-menu input {
+  padding: 4px; /* Espaciado interno reducido */
+  font-size: 0.8rem; /* Reducido drásticamente */
+  border: 1px solid #555;
+  border-radius: 4px;
+  background-color: #1a1b26;
+  color: #ffffff;
+}
+
+.context-menu input:focus {
+  outline: none;
+  border-color: #61dafb;
+}
+
+.context-menu .button-group {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px; /* Espaciado reducido */
+}
+
+.context-menu button {
+  background-color: #4f5d75;
+  color: #ffffff;
+  padding: 6px 10px; /* Espaciado reducido drásticamente */
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.8rem; /* Reducido drásticamente */
+  transition: background-color 0.3s ease;
+}
+
+.context-menu button:hover {
+  background-color: #68789c;
+}
+
+.close-menu-button {
+  background: none;
+  color: #ffffff;
+  border: none;
+  font-size: 1.2rem; /* Tamaño ajustado */
+  font-weight: bold;
+  cursor: pointer;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
+.close-menu-button:hover {
+  color: #ff4d4d;
+}

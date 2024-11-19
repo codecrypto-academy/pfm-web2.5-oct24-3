@@ -1,4 +1,3 @@
-// front/src/components/Header.tsx
 import { Link } from 'react-router-dom';
 import './Header.css';
 
@@ -8,7 +7,7 @@ export default function Header() {
       <div className="header-container">
         <div className="logo">
           <img src="/logo.svg" alt="Logo" className="logo-image" />
-          <h1>Build Private Ethereum Networks</h1>
+          <h1 className="logo-text">Build Private Ethereum Networks</h1> {/* Clase añadida */}
         </div>
         <nav className="nav">
           <Link to="/swap">Swap</Link>

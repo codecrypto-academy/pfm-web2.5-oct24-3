@@ -1,79 +1,59 @@
-import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import IsAlive from "./IsAlive";
-import "./networkCard.css";  // Mantener la importación de los estilos
+import React from "react";
+import "./networkCard.css";
+import { Network } from "../types/Network"; // Importamos el tipo
 
-interface Network {
-  id: string;
-  chainId: number;
-  subnet: string;
-  ipBootnode: string;
-  isUp?: boolean;
+interface ListNetworksProps {
+  networks: Network[];
+  setNetworks: React.Dispatch<React.SetStateAction<Network[]>>;
 }
 
-const ListNetworks: React.FC = () => {
-  const [networks, setNetworks] = useState<Network[]>([]);
-
-  useEffect(() => {
-    // Llamada al backend para obtener la lista de redes
-    fetch("http://localhost:3000/networks")  // Asegúrate de actualizar la URL del endpoint según tu configuración de backend
-      .then((response) => response.json())
-      .then((data) => {
-        setNetworks(data);  // Asignamos los datos recibidos del backend
+const ListNetworks: React.FC<ListNetworksProps> = ({ networks, setNetworks }) => {
+  const handleAction = (action: "up" | "down" | "restart", id: string) => {
+    fetch(`http://localhost:3333/${action}/${id}`, { method: "POST" })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`Error al ejecutar la acción ${action} para la red ${id}`);
+        }
+        return response.text();
       })
-      .catch((error) => console.error("Error al obtener redes:", error));
-  }, []);
-
-  const handleUp = (id: string) => {
-    fetch(`http://localhost:3000/up/${id}`, { method: 'POST' })
-      .then((response) => response.json())
       .then(() => {
-        setNetworks((prevNetworks) =>
-          prevNetworks.map((net) => (net.id === id ? { ...net, isUp: true } : net))
-        );
+        if (action === "up") {
+          setNetworks((prev) =>
+            prev.map((net) => (net.id === id ? { ...net, isUp: true } : net))
+          );
+        } else if (action === "down") {
+          setNetworks((prev) =>
+            prev.map((net) => (net.id === id ? { ...net, isUp: false } : net))
+          );
+        }
       })
-      .catch((error) => console.error("Error al subir la red:", error));
-  };
-
-  const handleDown = (id: string) => {
-    fetch(`http://localhost:3000/down/${id}`, { method: 'POST' })
-      .then((response) => response.json())
-      .then(() => {
-        setNetworks((prevNetworks) =>
-          prevNetworks.map((net) => (net.id === id ? { ...net, isUp: false } : net))
-        );
-      })
-      .catch((error) => console.error("Error al bajar la red:", error));
-  };
-
-  const handleRestart = (id: string) => {
-    fetch(`http://localhost:3000/restart/${id}`, { method: 'POST' })
-      .then((response) => response.json())
-      .then(() => {
-        console.log(`Red ${id} reiniciada`);
-      })
-      .catch((error) => console.error("Error al reiniciar la red:", error));
+      .catch((error) => {
+        console.error(`Error ejecutando la acción ${action} para la red ${id}:`, error);
+      });
   };
 
   return (
     <div className="container">
-      <h1>Lista de Redes</h1>
-      <Link to="/net/add">Añadir Nueva Red</Link>
       <div className="network-cards">
-        {networks.map((net) => (
-          <div key={net.id} className={`network-card ${net.isUp ? "up" : "down"}`}>
-            <h2>Network ID: {net.id}</h2>
-            <p>Chain ID: {net.chainId}</p>
-            <p>Subnet: {net.subnet}</p>
-            <p>IP Bootnode: {net.ipBootnode}</p>
+        {networks.map((network) => (
+          <div
+            key={network.id}
+            className={`network-card ${network.isUp ? "up" : "down"}`}
+          >
+            <h2>Network ID: {network.id}</h2>
+            <p>Chain ID: {network.chainId}</p>
+            <p>Subnet: {network.subnet}</p>
+            <p>IP Bootnode: {network.ipBootnode}</p>
             <div className="network-card-buttons">
-              {net.isUp ? (
+              {network.isUp ? (
                 <>
-                  <button onClick={() => handleDown(net.id)}>Down</button>
-                  <button onClick={() => handleRestart(net.id)}>Restart</button>
+                  <button onClick={() => handleAction("down", network.id)}>Down</button>
+                  <button onClick={() => handleAction("restart", network.id)}>
+                    Restart
+                  </button>
                 </>
               ) : (
-                <button onClick={() => handleUp(net.id)}>Up</button>
+                <button onClick={() => handleAction("up", network.id)}>Up</button>
               )}
             </div>
           </div>
