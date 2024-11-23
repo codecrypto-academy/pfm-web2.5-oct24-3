@@ -1,4 +1,7 @@
-// src/types/Network.ts
+export interface Alloc {
+  address: string; // Dirección Ethereum
+  balance: number; // Saldo asignado
+}
 
 export interface Nodo {
   type: string;
@@ -12,7 +15,7 @@ export interface Network {
   chainId: string; // Cambiado a string según el proyecto
   subnet: string;
   ipBootnode: string;
-  alloc: string[]; // Array de direcciones Ethereum
+  alloc: Alloc[]; // Array de objetos Alloc
   nodos: Nodo[]; // Array de nodos
   isUp?: boolean; // Estado opcional
 }

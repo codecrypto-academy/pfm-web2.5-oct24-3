@@ -1,20 +1,26 @@
-import React from "react";
-import { useForm, useFieldArray } from "react-hook-form";
+import React, { useState } from "react";
+import "./Contextmenu.css";
+
 
 interface Nodo {
   type: string;
   name: string;
   ip: string;
-  port: number; // Cambiado a `number` para consistencia
+  port: number;
+}
+
+interface Alloc {
+  address: string;
+  balance: number;
 }
 
 interface Network {
   id: string;
-  chainId: string; // Cambiado a `string` porque en el formulario es un texto
+  chainId: string;
   subnet: string;
   ipBootnode: string;
-  alloc: string[]; // Arreglo de direcciones Ethereum
-  nodos: Nodo[]; // Arreglo de nodos
+  alloc: Alloc[];
+  nodos: Nodo[];
 }
 
 interface AddNetworkProps {
@@ -23,140 +29,208 @@ interface AddNetworkProps {
 }
 
 const AddNetwork: React.FC<AddNetworkProps> = ({ onClose, onNetworkAdded }) => {
-  const {
-    register,
-    control,
-    handleSubmit,
-    reset,
-    formState: { errors },
-  } = useForm<Network>({
-    defaultValues: {
-      id: "",
-      chainId: "",
-      subnet: "",
-      ipBootnode: "",
-      alloc: [""], // Default de `alloc`
-      nodos: [{ type: "", name: "", ip: "", port: 0 }], // Default de `nodos`
-    },
+  const [network, setNetwork] = useState<Network>({
+    id: "",
+    chainId: "",
+    subnet: "",
+    ipBootnode: "",
+    alloc: [{ address: "", balance: 0 }],
+    nodos: [{ type: "", name: "", ip: "", port: 0 }],
   });
 
-  // Configuración de `alloc` (arreglo de cadenas)
-  const { fields: allocFields, append: appendAlloc, remove: removeAlloc } = useFieldArray({
-    control,
-    name: "alloc", // Correctamente asociado al campo `alloc`
-  });
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
+    const { name, value } = e.target;
+    setNetwork((prev) => ({ ...prev, [name]: value }));
+  };
 
-  // Configuración de `nodos` (arreglo de objetos)
-  const { fields: nodosFields, append: appendNodo, remove: removeNodo } = useFieldArray({
-    control,
-    name: "nodos", // Correctamente asociado al campo `nodos`
-  });
+  const handleAllocChange = (index: number, field: keyof Alloc, value: string | number) => {
+    const updatedAlloc = [...network.alloc];
+    updatedAlloc[index] = { ...updatedAlloc[index], [field]: value };
+    setNetwork((prev) => ({ ...prev, alloc: updatedAlloc }));
+  };
 
-  // Manejo de envío del formulario
-  const onSubmit = (data: Network) => {
-    console.log("Datos enviados:", data);
-    onNetworkAdded(data); // Agregamos la nueva red
-    reset(); // Limpiamos el formulario
-    onClose(); // Cerramos el formulario
+  const addAlloc = () => {
+    setNetwork((prev) => ({
+      ...prev,
+      alloc: [...prev.alloc, { address: "", balance: 0 }],
+    }));
+  };
+
+  const removeAlloc = (index: number) => {
+    const updatedAlloc = [...network.alloc];
+    updatedAlloc.splice(index, 1);
+    setNetwork((prev) => ({ ...prev, alloc: updatedAlloc }));
+  };
+
+  const handleNodoChange = (
+    index: number,
+    field: keyof Nodo,
+    value: string | number
+  ) => {
+    const updatedNodos = [...network.nodos];
+    updatedNodos[index] = { ...updatedNodos[index], [field]: value };
+    setNetwork((prev) => ({ ...prev, nodos: updatedNodos }));
+  };
+
+  const addNodo = () => {
+    setNetwork((prev) => ({
+      ...prev,
+      nodos: [...prev.nodos, { type: "", name: "", ip: "", port: 0 }],
+    }));
+  };
+
+  const removeNodo = (index: number) => {
+    const updatedNodos = [...network.nodos];
+    updatedNodos.splice(index, 1);
+    setNetwork((prev) => ({ ...prev, nodos: updatedNodos }));
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    console.log("Network data submitted:", network);
+    onNetworkAdded(network);
+    onClose();
   };
 
   return (
     <div className="add-network-form">
       <h2>Añadir Red</h2>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        {/* Campos básicos */}
-        <label>Network ID:</label>
-        <input {...register("id", { required: "Network ID es obligatorio" })} />
-        {errors.id && <p className="error">{errors.id.message}</p>}
+      <form onSubmit={handleSubmit} className="form-columns">
+        {/* Columna izquierda */}
+        <div className="form-column-left">
+          <label>Network ID:</label>
+          <input
+            type="text"
+            name="id"
+            value={network.id}
+            onChange={handleInputChange}
+            required
+          />
 
-        <label>Chain ID:</label>
-        <input {...register("chainId", { required: "Chain ID es obligatorio" })} />
-        {errors.chainId && <p className="error">{errors.chainId.message}</p>}
+          <label>Chain ID:</label>
+          <input
+            type="text"
+            name="chainId"
+            value={network.chainId}
+            onChange={handleInputChange}
+            required
+          />
 
-        <label>Subnet:</label>
-        <input {...register("subnet", { required: "Subnet es obligatoria" })} />
-        {errors.subnet && <p className="error">{errors.subnet.message}</p>}
+          <label>Subnet:</label>
+          <input
+            type="text"
+            name="subnet"
+            value={network.subnet}
+            onChange={handleInputChange}
+            required
+          />
 
-        <label>IP Bootnode:</label>
-        <input
-          {...register("ipBootnode", {
-            required: "IP Bootnode es obligatoria",
-            pattern: {
-              value: /^(?:\d{1,3}\.){3}\d{1,3}$/,
-              message: "IP no válida",
-            },
-          })}
-        />
-        {errors.ipBootnode && <p className="error">{errors.ipBootnode.message}</p>}
+          <label>IP Bootnode:</label>
+          <input
+            type="text"
+            name="ipBootnode"
+            value={network.ipBootnode}
+            onChange={handleInputChange}
+            required
+            pattern="^(?:\d{1,3}\.){3}\d{1,3}$"
+            title="Debe ser una dirección IP válida."
+          />
+        </div>
 
-        {/* Alloc */}
-        <h3>Alloc</h3>
-        {allocFields.map((field, index) => (
-          <div key={field.id}>
-            <input
-              {...register(`alloc.${index}` as const, {
-                required: "La dirección es obligatoria",
-                pattern: {
-                  value: /^0x[a-fA-F0-9]{40}$/,
-                  message: "Dirección Ethereum no válida",
-                },
-              })}
-            />
-            <button type="button" onClick={() => removeAlloc(index)}>
-              Eliminar
-            </button>
-            {errors.alloc && errors.alloc[index] && (
-              <p className="error">{errors.alloc[index]?.message}</p>
-            )}
-          </div>
-        ))}
-        <button type="button" onClick={() => appendAlloc("")}>
-          Agregar Alloc
-        </button>
+        {/* Columna derecha */}
+        <div className="form-column-right">
+          <h3>Alloc</h3>
+          {network.alloc.map((alloc, index) => (
+            <div key={index} className="alloc-item">
+              <input
+                type="text"
+                placeholder="Cuenta Ethereum"
+                value={alloc.address}
+                onChange={(e) => handleAllocChange(index, "address", e.target.value)}
+                required
+                pattern="^0x[a-fA-F0-9]{40}$"
+                title="Debe ser una dirección Ethereum válida."
+              />
+              <input
+                type="number"
+                placeholder="Saldo"
+                value={alloc.balance === 0 ? "Saldo" : alloc.balance.toString()}
+                onChange={(e) => handleAllocChange(index, "balance", parseFloat(e.target.value))}
+                required
+                min={0}
+                title="El saldo debe ser 0 o un número positivo."
+              />
+              {network.alloc.length > 1 && (
+                <button type="button" onClick={() => removeAlloc(index)}>
+                  Eliminar
+                </button>
+              )}
+            </div>
+          ))}
+          <button type="button" onClick={addAlloc}>
+            + Nuevo Alloc
+          </button>
+        </div>
 
-        {/* Nodos */}
-        <h3>Nodos</h3>
-        {nodosFields.map((field, index) => (
-          <div key={field.id}>
-            <input {...register(`nodos.${index}.type` as const)} placeholder="Tipo" />
-            <input {...register(`nodos.${index}.name` as const)} placeholder="Nombre" />
-            <input
-              {...register(`nodos.${index}.ip` as const, {
-                required: "IP es obligatoria",
-                pattern: {
-                  value: /^(?:\d{1,3}\.){3}\d{1,3}$/,
-                  message: "IP no válida",
-                },
-              })}
-              placeholder="IP"
-            />
-            <input
-              {...register(`nodos.${index}.port` as const, {
-                required: "Puerto es obligatorio",
-                min: { value: 1, message: "Puerto debe ser mayor a 0" },
-                max: { value: 65535, message: "Puerto no válido" },
-              })}
-              type="number"
-              placeholder="Puerto"
-            />
-            <button type="button" onClick={() => removeNodo(index)}>
-              Eliminar Nodo
-            </button>
-            {errors.nodos && errors.nodos[index] && (
-              <div className="error">
-                {errors.nodos[index]?.ip && <p>{errors.nodos[index]?.ip.message}</p>}
-                {errors.nodos[index]?.port && <p>{errors.nodos[index]?.port.message}</p>}
-              </div>
-            )}
-          </div>
-        ))}
-        <button type="button" onClick={() => appendNodo({ type: "", name: "", ip: "", port: 0 })}>
-          Agregar Nodo
-        </button>
+        {/* Nodos (ancho completo) */}
+        <div className="form-full-width">
+          <h3>Nodos</h3>
+          {network.nodos.map((nodo, index) => (
+            <div key={index} className="nodo-item">
+              <input
+                type="text"
+                placeholder="Tipo"
+                value={nodo.type}
+                onChange={(e) => handleNodoChange(index, "type", e.target.value)}
+                required
+              />
+              <input
+                type="text"
+                placeholder="Nombre"
+                value={nodo.name}
+                onChange={(e) => handleNodoChange(index, "name", e.target.value)}
+                required
+              />
+              <input
+                type="text"
+                placeholder="IP"
+                value={nodo.ip}
+                onChange={(e) => handleNodoChange(index, "ip", e.target.value)}
+                required
+                pattern="^(?:\d{1,3}\.){3}\d{1,3}$"
+                title="Debe ser una dirección IP válida."
+              />
+              <input
+                type="number"
+                placeholder="Puerto"
+                value={nodo.port}
+                onChange={(e) =>
+                  handleNodoChange(index, "port", parseInt(e.target.value, 10))
+                }
+                required
+                min={1}
+                max={65535}
+              />
+              {network.nodos.length > 1 && (
+                <button type="button" onClick={() => removeNodo(index)}>
+                  Eliminar Nodo
+                </button>
+              )}
+            </div>
+          ))}
+          <button type="button" onClick={addNodo}>
+            + Nuevo Nodo
+          </button>
+        </div>
 
-        <button type="submit">Añadir Red</button>
+       {/* Botón Crear Red */}
+<button type="submit" className="add-network-button">
+  Crear Red
+</button>
+
       </form>
-      <button onClick={onClose}>Cerrar</button>
     </div>
   );
 };
