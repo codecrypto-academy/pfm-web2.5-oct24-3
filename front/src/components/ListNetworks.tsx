@@ -1,13 +1,18 @@
 import React from "react";
 import "./networkCard.css";
-import { Network } from "../types/Network"; // Importamos el tipo
+import { Network } from "../types/Network";
 
 interface ListNetworksProps {
   networks: Network[];
   setNetworks: React.Dispatch<React.SetStateAction<Network[]>>;
+  onNetworkClick: (network: Network) => void; // Nueva prop para manejar el clic en la red
 }
 
-const ListNetworks: React.FC<ListNetworksProps> = ({ networks, setNetworks }) => {
+const ListNetworks: React.FC<ListNetworksProps> = ({
+  networks,
+  setNetworks,
+  onNetworkClick,
+}) => {
   const handleAction = (action: "up" | "down" | "restart", id: string) => {
     fetch(`http://localhost:3333/${action}/${id}`, { method: "POST" })
       .then((response) => {
@@ -39,6 +44,7 @@ const ListNetworks: React.FC<ListNetworksProps> = ({ networks, setNetworks }) =>
           <div
             key={network.id}
             className={`network-card ${network.isUp ? "up" : "down"}`}
+            onClick={() => onNetworkClick(network)} // Llama a la nueva prop al hacer clic
           >
             <h2>Network ID: {network.id}</h2>
             <p>Chain ID: {network.chainId}</p>
@@ -47,13 +53,32 @@ const ListNetworks: React.FC<ListNetworksProps> = ({ networks, setNetworks }) =>
             <div className="network-card-buttons">
               {network.isUp ? (
                 <>
-                  <button onClick={() => handleAction("down", network.id)}>Down</button>
-                  <button onClick={() => handleAction("restart", network.id)}>
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation(); // Evitar que el clic abra el menú de detalles
+                      handleAction("down", network.id);
+                    }}
+                  >
+                    Down
+                  </button>
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleAction("restart", network.id);
+                    }}
+                  >
                     Restart
                   </button>
                 </>
               ) : (
-                <button onClick={() => handleAction("up", network.id)}>Up</button>
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleAction("up", network.id);
+                  }}
+                >
+                  Up
+                </button>
               )}
             </div>
           </div>

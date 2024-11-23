@@ -49,6 +49,11 @@ export default function App() {
     setNetworks((prev) => [...prev, newNetwork]);
   };
 
+  const handleNetworkClick = (network: Network) => {
+    console.log("Red seleccionada:", network);
+    // Aquí podemos implementar la lógica para abrir el menú contextual con los detalles de la red.
+  };
+
   return (
     <div className="App">
       <Header />
@@ -56,11 +61,23 @@ export default function App() {
         <Routes>
           <Route
             path="/"
-            element={<Home networks={networks} setNetworks={setNetworks} />}
+            element={
+              <Home
+                networks={networks}
+                setNetworks={setNetworks}
+                onNetworkClick={handleNetworkClick}
+              />
+            }
           />
           <Route
             path="/net/list"
-            element={<ListNetworks networks={networks} setNetworks={setNetworks} />}
+            element={
+              <ListNetworks
+                networks={networks}
+                setNetworks={setNetworks}
+                onNetworkClick={handleNetworkClick}
+              />
+            }
           />
           <Route
             path="/net/add"

@@ -13,27 +13,32 @@
   overflow-y: auto; /* Para manejar contenido extenso */
 }
 
+/* Títulos dentro del menú contextual */
 .context-menu h2 {
   font-size: 1.5rem;
   margin-bottom: 15px;
   text-align: center;
 }
 
-/* Formulario principal */
-.context-menu form {
+.context-menu h3 {
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+}
+
+/* Estilos para las columnas del formulario o los detalles */
+.context-menu .form-columns {
   display: flex;
   flex-wrap: wrap; /* Permitir columnas y ajuste responsivo */
   gap: 16px; /* Espaciado entre columnas */
 }
 
-/* Columnas del formulario */
-.form-column-left,
-.form-column-right {
+.context-menu .form-column-left,
+.context-menu .form-column-right {
   flex: 1; /* Cada columna ocupa la misma proporción */
-  min-width: 45%; /* Asegurarse de que las columnas tengan tamaño adecuado */
+  min-width: 45%; /* Asegurar un ancho mínimo adecuado */
 }
 
-.form-full-width {
+.context-menu .form-full-width {
   flex-basis: 100%; /* Ocupa todo el ancho */
 }
 
@@ -89,8 +94,9 @@
   background-color: #68789c;
 }
 
-/* Botón "Crear Red" */
-.context-menu .add-network-button {
+/* Botón "Crear Red" y acciones similares */
+.context-menu .add-network-button,
+.context-menu .action-button {
   background-color: #6a0dad; /* Color morado */
   color: #fff;
   padding: 10px 20px;
@@ -103,11 +109,10 @@
   margin-bottom: 40px; /* Separación del borde inferior */
 }
 
-.context-menu .add-network-button:hover {
+.context-menu .add-network-button:hover,
+.context-menu .action-button:hover {
   background-color: #32cd32; /* Color verde al pasar el ratón */
 }
-
-
 
 /* Botón de cerrar (en esquina superior derecha) */
 .close-menu-button {
