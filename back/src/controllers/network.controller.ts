@@ -57,4 +57,19 @@ export class NetworkController {
             next(error);
         }
     }
+
+    public static async deleteNetwork(req: Request, res: Response, next: NextFunction) {
+
+        try {
+
+            const { id } = req.params;
+
+            await networkService.deleteNetworkById(id);
+
+            res.status(204).send();
+
+        } catch (error) {
+            next(error);
+        }
+    }
 }
