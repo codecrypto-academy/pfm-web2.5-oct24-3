@@ -20,7 +20,7 @@ export default function App() {
   const [networks, setNetworks] = useState<Network[]>([]);
 
   useEffect(() => {
-    fetch(`${API_BASE_URL}/api/network`)
+    fetch(`${API_BASE_URL}/network`)
       .then((res) => {
         if (!res.ok) {
           throw new Error("Error al obtener las redes");

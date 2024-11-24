@@ -1,6 +1,7 @@
 import React from "react";
 import "./networkCard.css";
 import { Network } from "../types/Network";
+import API_BASE_URL from "../apiConfig";
 
 interface ListNetworksProps {
   networks: Network[];
@@ -14,12 +15,12 @@ const ListNetworks: React.FC<ListNetworksProps> = ({
   onNetworkClick,
 }) => {
   const handleAction = (action: "up" | "down" | "restart", id: string) => {
-    fetch(`http://localhost:3333/${action}/${id}`, { method: "POST" })
+    fetch(`${API_BASE_URL}/network/${action}/${id}`, { method: "GET" })
       .then((response) => {
         if (!response.ok) {
           throw new Error(`Error al ejecutar la acción ${action} para la red ${id}`);
         }
-        return response.text();
+
       })
       .then(() => {
         if (action === "up") {

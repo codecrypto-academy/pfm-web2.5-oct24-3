@@ -127,7 +127,7 @@ UNLOCK=${fs.readFileSync(`${pathNetwork}/address.txt`).toString().trim()}
 }
 
 
-app.get('network/up/:id', async (req: Request, res: Response) => {
+app.get('/api/network/up/:id', async (req: Request, res: Response) => {
 
     const { id } = req.params;
     const networksDB = JSON.parse(fs.readFileSync(path.join(DIR_BASE, 'networks.json')).toString());
@@ -155,7 +155,7 @@ app.get('network/up/:id', async (req: Request, res: Response) => {
         execSync(`docker-compose -f ${dockerComposePath} up -d`);
         console.log(`EJECUTADO`)
 
-        res.status(200).send('ok');
+        res.status(200).send();
 
     } else {
         res.status(404).send(`No se ha encontrado la red ${id}`);
