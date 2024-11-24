@@ -1,51 +1,62 @@
 /* front/src/components/Header.css */
 
 .header {
-    width: 100%;
-    background-color: #333;
-    color: white;
-    padding: 1rem 0;
-  }
-  
-  .header-container {
-    max-width: 1400px;
-    margin: 0 auto;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 1rem;
-  }
-  
-  .logo {
-    display: flex;
-    align-items: center;
-  }
-  
-  .logo-image {
-    width: 50px; /* Ajusta el tamaño de la imagen */
-    margin-right: 10px;
-  }
-  
-  .nav a {
-    color: #61dafb;
-    text-decoration: none;
-    margin: 0 1rem;
-  }
-  
-  .nav a:hover {
-    color: #21a0f6;
-  }
-  
-  .connect-wallet {
-    background-color: #61dafb;
-    color: #333;
-    padding: 0.5rem 1rem;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  
-  .connect-wallet:hover {
-    background-color: #21a0f6;
-  }
-  
+  width: 100%;
+  background-color: #333;
+  color: white;
+  padding: 0.5rem 0; /* Reducir padding para disminuir la altura */
+}
+
+.header-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 1rem;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+}
+
+.logo-image {
+  width: 40px; /* Ajusta el tamaño de la imagen para hacerlo más compacto */
+  margin-right: 10px;
+  fill: #FFFFFF; /* Cambia el color del logo si es un SVG */
+  filter: brightness(0) invert(1); /* Convierte imágenes oscuras a blancas */
+}
+
+.nav a {
+  color: #4272CF;
+  text-decoration: none;
+  margin: 0 0.5rem; /* Reducir margen entre enlaces para ahorrar espacio */
+  font-size: 0.9rem; /* Ajustar tamaño de texto */
+}
+
+.nav a:hover {
+  color: #21a0f6;
+}
+
+.connect-wallet {
+  background-color: #4272CF;
+  color: #ffffff;
+  padding: 0.4rem 0.8rem; /* Ajustar padding para hacerlo más compacto */
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 0.9rem; /* Reducir tamaño de texto */
+}
+
+.connect-wallet:hover {
+  background-color: #21a0f6;
+}
+
+.logo-text {
+  font-size: 2.5rem; /* Reducir tamaño del texto principal del header */
+  font-weight: bold;
+  white-space: nowrap; /* Evitar que el texto se divida en varias líneas */
+  line-height: 1; /* Ajustar altura de línea para alineación */
+  margin: 0; /* Eliminar márgenes adicionales */
+}

@@ -1,59 +1,169 @@
-/* front/src/components/contextMenu.css */
-
 .context-menu {
-    background-color: #2c2f3b;
-    padding: 20px;
-    width: 300px;
-    border-radius: 8px;
-    color: #ffffff;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  position: fixed;
+  top: 10%;
+  right: 5%;
+  background-color: #2c2f3b;
+  padding: 20px;
+  width: 800px;
+  height: 90%;
+  border-radius: 10px;
+  color: #ffffff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+  overflow-y: auto; /* Para manejar contenido extenso */
+}
+
+/* Títulos dentro del menú contextual */
+.context-menu h2 {
+  font-size: 1.5rem;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+.context-menu h3 {
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+}
+
+/* Estilos para las columnas del formulario o los detalles */
+.context-menu .form-columns {
+  display: flex;
+  flex-wrap: wrap; /* Permitir columnas y ajuste responsivo */
+  gap: 16px; /* Espaciado entre columnas */
+}
+
+.context-menu .form-column-left,
+.context-menu .form-column-right {
+  flex: 1; /* Cada columna ocupa la misma proporción */
+  min-width: 45%; /* Asegurar un ancho mínimo adecuado */
+}
+
+.context-menu .form-full-width {
+  flex-basis: 100%; /* Ocupa todo el ancho */
+}
+
+/* Etiquetas */
+.context-menu label {
+  font-size: 0.9rem;
+  margin-bottom: 6px;
+  display: block;
+}
+
+/* Inputs generales */
+.context-menu input {
+  padding: 8px;
+  font-size: 0.9rem;
+  border: 1px solid #555;
+  border-radius: 4px;
+  background-color: #1a1b26;
+  color: #ffffff;
+  margin-bottom: 12px; /* Espaciado entre campos */
+}
+
+/* Inputs específicos */
+.context-menu .form-column-left input {
+  width: 50%; /* Reducir el ancho de los inputs en la columna izquierda */
+}
+
+.alloc-item input[type="text"] {
+  width: 130%; /* Aumentar el ancho del input "Cuenta Ethereum" un 30% */
+}
+
+.alloc-item input[type="number"] {
+  width: 60%; /* Reducir el ancho del input "Saldo" un 40% */
+}
+
+.context-menu input:focus {
+  outline: none;
+  border-color: #61dafb;
+}
+
+/* Botones generales */
+.context-menu button {
+  background-color: #4f5d75;
+  color: #ffffff;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background-color 0.3s ease;
+}
+
+.context-menu button:hover {
+  background-color: #68789c;
+}
+
+/* Botón "Crear Red" y acciones similares */
+.context-menu .add-network-button,
+.context-menu .action-button {
+  background-color: #6a0dad; /* Color morado */
+  color: #fff;
+  padding: 10px 20px;
+  font-size: 1rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-top: 16px;
+  margin-bottom: 40px; /* Separación del borde inferior */
+}
+
+.context-menu .add-network-button:hover,
+.context-menu .action-button:hover {
+  background-color: #32cd32; /* Color verde al pasar el ratón */
+}
+
+/* Botón de cerrar (en esquina superior derecha) */
+.close-menu-button {
+  background: none;
+  color: #ffffff;
+  border: none;
+  font-size: 1.2rem;
+  font-weight: bold;
+  cursor: pointer;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
+.close-menu-button:hover {
+  color: #ff4d4d;
+}
+
+/* Estilo para elementos del campo Alloc */
+.alloc-item {
+  display: flex;
+  align-items: center;
+  gap: 12px; /* Espaciado entre campos Alloc */
+}
+
+.alloc-item input {
+  flex: 1; /* Los inputs ocupan el mismo espacio */
+}
+
+/* Botón "Nuevo Alloc" */
+button[type="button"] {
+  margin-top: 8px;
+  font-size: 0.9rem;
+  padding: 8px 12px;
+}
+
+/* Estilo para elementos del campo Nodo */
+.nodo-item {
+  display: flex;
+  align-items: center;
+  gap: 12px; /* Espaciado entre campos Nodo */
+}
+
+.nodo-item input {
+  flex: 1; /* Los inputs ocupan el mismo espacio */
+}
+
+/* Ajustes responsivos */
+@media (max-width: 768px) {
+  .form-column-left,
+  .form-column-right {
+    flex-basis: 100%; /* Cada columna ocupa todo el ancho en pantallas pequeñas */
   }
-  
-  .context-menu h2 {
-    font-size: 1.5rem;
-    margin-bottom: 15px;
-  }
-  
-  .context-menu .info-section {
-    margin-bottom: 20px;
-  }
-  
-  .context-menu .info-section h3 {
-    font-size: 1.2rem;
-    margin-bottom: 10px;
-  }
-  
-  .context-menu .info-section p {
-    font-size: 0.9rem;
-    line-height: 1.5;
-  }
-  
-  .context-menu .button-group {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
-  
-  .context-menu button {
-    background-color: #4f5d75;
-    color: #ffffff;
-    padding: 10px 15px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  
-  .context-menu button:hover {
-    background-color: #68789c;
-  }
-  
-  .context-menu .create-network {
-    background-color: #17a2b8;
-    color: #ffffff;
-  }
-  
-  .context-menu .create-network:hover {
-    background-color: #138496;
-  }
-  
+}

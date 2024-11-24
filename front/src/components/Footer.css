@@ -1,37 +1,43 @@
 /* front/src/components/Footer.css */
 
 .footer {
-    width: 100%;
-    background-color: #333;
-    color: white;
-    padding: 1rem 0;
-  }
-  
-  .footer-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 1rem;
-  }
-  
-  .links a {
-    color: #61dafb;
-    text-decoration: none;
-    margin: 0 1rem;
-  }
-  
-  .links a:hover {
-    color: #21a0f6;
-  }
-  
-  .social-icons a {
-    margin: 0 0.5rem;
-  }
-  
-  .social-icons img {
-    width: 24px;
-    height: 24px;
-  }
-  
+  width: 100%;
+  background-color: #333;
+  color: white;
+  padding: 1rem 0;
+}
+
+.footer-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 1rem;
+}
+
+.links a {
+  color: #4272CF;
+  text-decoration: none;
+  margin: 0 1rem;
+}
+
+.links a:hover {
+  color: #21a0f6;
+}
+
+.social-icons a {
+  margin: 0 0.5rem;
+}
+
+.social-icons img {
+  width: 24px;
+  height: 24px;
+  filter: invert(1); /* Hace que las imágenes sean blancas */
+  transition: filter 0.3s ease, transform 0.3s ease;
+}
+
+.social-icons img:hover {
+  filter: invert(0.5) sepia(1) saturate(5) hue-rotate(180deg); /* Agrega un efecto de color al pasar el ratón */
+  transform: scale(1.1); /* Aumenta ligeramente el tamaño */
+}

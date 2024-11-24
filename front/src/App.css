@@ -1,19 +1,21 @@
 /* Configuración del fondo de puntos en todo el fondo */
 body, html, #root {
-  height: 100%;
-  background-color: #1a1b26;
-  background-image: radial-gradient(#2e2f3e 1px, transparent 1px);
+  min-height: 100vh; /* Garantiza que cubra toda la pantalla */
+  background-color: #1a1b26; /* Uniformidad del color */
+  background-image: radial-gradient(#2e2f3e 1px, transparent 1px); /* Patrón de puntos */
   background-size: 10px 10px;
   color: #ffffff;
   font-family: Arial, sans-serif;
   margin: 0;
   padding: 0;
+  display: flex;
+  flex-direction: column;
 }
 
 /* Estilos para el contenedor de la aplicación */
 .App {
   display: grid;
-  min-height: 100dvh;
+  min-height: 100vh; /* Garantiza que el fondo cubra toda la ventana */
   grid-template-rows: auto 1fr auto;
 }
 
@@ -25,13 +27,15 @@ body, html, #root {
   align-items: center;
   justify-content: center;
   padding: 20px;
-  background-color: rgba(0, 0, 0, 0.5); /* Transparencia ajustada para mostrar fondo */
+  /* Eliminado el fondo que sobrescribía el diseño global */
 }
 
+/* Contenedores generales */
 .container {
   padding: 10px 20px;
 }
 
+/* Botones */
 button, .btn {
   background-color: #4f5d75;
   color: #ffffff;
@@ -46,6 +50,7 @@ button:hover, .btn:hover {
   background-color: #68789c;
 }
 
+/* Header y footer */
 header, footer {
   background-color: #2b2d42;
   color: #edf2f4;

@@ -1,30 +1,72 @@
-// src/components/Home.tsx
-import { useEffect, useState } from 'react';
+import { useState } from "react";
+import ListNetworks from "./ListNetworks";
+import AddNetwork from "./AddNetwork";
+import NetworkDetails from "./NetworkDetails"; // Nuevo componente para los detalles de red
+import "./Home.css";
+import "./Contextmenu.css"; // Asegúrate de importar los estilos del menú contextual
+import { Network } from "../types/Network";
 
-type Data = {
-  p1: string
-  p2: string
-  p3: string
+interface HomeProps {
+  networks: Network[];
+  setNetworks: React.Dispatch<React.SetStateAction<Network[]>>;
+  onNetworkClick: (network: Network) => void; // Añadimos la nueva prop
 }
 
-export default function Home() {
 
-  const [data, setData] = useState<Data | null>(null)
-  useEffect(() => {
-    fetch('http://localhost:3333/Parametros/Master/123')
-      .then(res => res.json())
-      .then(data => setData(data))
-  }, [])
+export default function Home({ networks, setNetworks }: HomeProps) {
+  const [isMenuOpen, setIsMenuOpen] = useState(false); // Controla el menú para añadir redes
+  const [selectedNetwork, setSelectedNetwork] = useState<Network | null>(null); // Controla el menú de detalles
 
-  if (!data) return <div>Loading data.....waiting</div>
+  // Abrir/cerrar el menú contextual para añadir redes
+  const toggleMenu = () => {
+    setIsMenuOpen((prev) => !prev);
+  };
+
+  const closeMenu = () => {
+    setIsMenuOpen(false);
+  };
+
+  // Maneja la adición de una nueva red
+  const handleNetworkAdded = (newNetwork: Network) => {
+    setNetworks((prev) => [...prev, newNetwork]);
+  };
+
+  // Abrir el menú contextual para los detalles de una red específica
+  const openDetailsMenu = (network: Network) => {
+    setSelectedNetwork(network);
+  };
+
+  const closeDetailsMenu = () => {
+    setSelectedNetwork(null);
+  };
 
   return (
-    <div>
-      <h1>Welcome to the Home Page</h1>
-      <p>This is the main page of the application.</p>
-      <p>
-          {data?.p1} {data?.p2} {data?.p3}
-        </p>
+    <div className="home-container">
+      <h1 className="home-title">Lista de Redes</h1>
+      <button className="add-network-button" onClick={toggleMenu}>
+        Añadir Red
+      </button>
+      {isMenuOpen && (
+        <div className="context-menu floating-menu">
+          <button className="close-menu-button" onClick={closeMenu}>
+            &times;
+          </button>
+          <AddNetwork onClose={closeMenu} onNetworkAdded={handleNetworkAdded} />
+        </div>
+      )}
+      {selectedNetwork && (
+        <div className="context-menu floating-menu">
+          <button className="close-menu-button" onClick={closeDetailsMenu}>
+            &times;
+          </button>
+          <NetworkDetails network={selectedNetwork} onClose={closeDetailsMenu} />
+        </div>
+      )}
+      <ListNetworks
+        networks={networks}
+        setNetworks={setNetworks}
+        onNetworkClick={openDetailsMenu}
+      />
     </div>
   );
 }

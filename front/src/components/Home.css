@@ -1,0 +1,41 @@
+.home-container {
+    padding: 20px;
+  }
+  
+  .home-title {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .add-network-button {
+    display: block;
+    margin: 0 auto 20px;
+    padding: 10px 20px;
+    background-color: #6c43cf;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .add-network-button:hover {
+    background-color: #45a049;
+  }
+  
+  .contextual-menu {
+    position: fixed;
+    top: 10%;
+    left: 10%;
+    background-color: #333;
+    color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    z-index: 1000;
+    max-width: 90%;
+    overflow-y: auto;
+    max-height: 80vh;
+  }
+  

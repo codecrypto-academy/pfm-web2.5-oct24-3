@@ -1,0 +1,33 @@
+.add-network-container {
+    position: relative;
+    padding: 20px;
+    background-color: #2b2d42;
+    color: #edf2f4;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  }
+  
+  .add-network-container h1 {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .close-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: red;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+  }
+  
+  .error {
+    color: red;
+    font-size: 0.9rem;
+  }
+  
+  

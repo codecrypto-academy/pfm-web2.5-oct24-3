@@ -28,13 +28,10 @@ const DIR_BASE = path.join(__dirname, '..', 'datos');
 const DIR_NETWORKS = path.join(DIR_BASE, 'networks');
 
 function creaDirectorioNetwork(pathNetwork: string) {
-
     if (existeDir(pathNetwork)) {
-        fs.rmSync(pathNetwork, { recursive: true })
+        fs.rmSync(pathNetwork, { recursive: true });
     }
-
-    fs.mkdirSync(pathNetwork, { recursive: true })
-
+    fs.mkdirSync(pathNetwork, { recursive: true });
     fs.writeFileSync(path.join(pathNetwork, 'password.txt'), creaContraseña());
 }
 
@@ -68,7 +65,7 @@ function creaGenesis(pathNetwork: string, network: any) {
 }
 
 function createBootnode(network: any) {
-    const bootnode = `
+    return `
     geth-bootnode:
         hostname: geth-bootnode
         image: ethereum/client-go:alltools-v1.13.15
@@ -79,8 +76,7 @@ function createBootnode(network: any) {
         - ./bootnode.key:/pepe/bootnode.key
         networks:
             ethnetwork:
-                ipv4_address: \${IPBOOTNODE} `
-    return bootnode;
+                ipv4_address: \${IPBOOTNODE}`;
 }
 
 function createNodo(nodo: any) {
