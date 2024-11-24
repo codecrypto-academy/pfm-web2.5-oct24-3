@@ -17,20 +17,10 @@ import API_BASE_URL from "./apiConfig";
 import { Network } from "./types/Network"; // Importamos los tipos
 
 export default function App() {
-  const [networks, setNetworks] = useState<Network[]>([
-    {
-      id: "red2", // Red simulada
-      chainId: "21",
-      subnet: "172.16.239.0/24",
-      ipBootnode: "172.16.239.10",
-      alloc: [],
-      nodos: [],
-      isUp: true, // Simulamos que esta red está activa
-    },
-  ]);
+  const [networks, setNetworks] = useState<Network[]>([]);
 
   useEffect(() => {
-    fetch(`${API_BASE_URL}/networks`)
+    fetch(`${API_BASE_URL}/api/network`)
       .then((res) => {
         if (!res.ok) {
           throw new Error("Error al obtener las redes");
@@ -38,7 +28,7 @@ export default function App() {
         return res.json();
       })
       .then((data) => {
-        setNetworks((prev) => [...prev, ...data]); // Añadimos las redes obtenidas a las ya simuladas
+        setNetworks(data.data.networkList); // Añadimos las redes obtenidas a las ya simuladas
       })
       .catch((error) => {
         console.error("Error al obtener redes:", error);
