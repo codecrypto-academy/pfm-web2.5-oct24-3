@@ -14,7 +14,7 @@ export class NetworkController {
 
             res.status(200).json({
                 status: "success",
-                data: {networkList: networkList}
+                data: { networkList: networkList }
             });
 
         } catch (error) {
@@ -32,7 +32,7 @@ export class NetworkController {
 
             res.status(200).json({
                 status: "success",
-                data: {network: network}
+                data: { network: network }
             });
 
         } catch (error) {
@@ -50,8 +50,23 @@ export class NetworkController {
 
             res.status(201).json({
                 status: "success",
-                data: {network: savedNetwork}
+                data: { network: savedNetwork }
             });
+
+        } catch (error) {
+            next(error);
+        }
+    }
+
+    public static async upNetwork(req: Request, res: Response, next: NextFunction) {
+
+        try {
+
+            const { id } = req.params;
+
+            await networkService.upNetworkById(id);
+
+            res.status(200).send();
 
         } catch (error) {
             next(error);
