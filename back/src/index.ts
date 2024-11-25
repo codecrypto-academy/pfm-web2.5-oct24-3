@@ -1,10 +1,5 @@
-import * as fs from 'fs';
-import * as path from 'path';
-import express from 'express';
-import { Request, Response } from 'express';
 import cors from 'cors';
-import { execSync } from 'child_process';
-import { existeDir } from './utils/utils';
+import express from 'express';
 import networkRoutes from './routes/network.routes';
 import { errorHandler } from './middlewares/errorHandler.middleware';
 
