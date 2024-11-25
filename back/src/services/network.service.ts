@@ -118,26 +118,6 @@ export class NetworkService {
         return network;
     }
 
-    public async deleteNetworkById(networkId: Network["id"]): Promise<void> {
-
-        const pathDirNetwork = path.join(DIR_NETWORKS, networkId);
-
-        if (await this.existingDir(pathDirNetwork)) {
-
-            // Borramos contenedores de Docker
-            const dockerComposePath = path.join(pathDirNetwork, 'docker-compose.yml');
-            execSync(`docker-compose -f ${dockerComposePath} down`);
-
-            // Borramos directorio de la red
-            fs.rmdirSync(pathDirNetwork, { recursive: true });
-        }
-
-        // Borramos la red de network.json
-        const networkList = await this.readNetworksFromFile();
-        const networksDBUpdated = networkList.filter(net => net.id !== networkId);
-        await this.writeNetworkToFile(networksDBUpdated);
-    }
-
     public async upNetworkById(networkId: Network["id"]): Promise<void> {
 
         const networkDB = await this.readNetworksFromFile();
@@ -165,6 +145,26 @@ export class NetworkService {
             execSync(`docker-compose -f ${dockerComposePath} up -d`);
             console.log('EJECUTADO');
         }
+    }
+
+    public async deleteNetworkById(networkId: Network["id"]): Promise<void> {
+
+        const pathDirNetwork = path.join(DIR_NETWORKS, networkId);
+
+        if (await this.existingDir(pathDirNetwork)) {
+
+            // Borramos contenedores de Docker
+            const dockerComposePath = path.join(pathDirNetwork, 'docker-compose.yml');
+            execSync(`docker-compose -f ${dockerComposePath} down`);
+
+            // Borramos directorio de la red
+            fs.rmdirSync(pathDirNetwork, { recursive: true });
+        }
+
+        // Borramos la red de network.json
+        const networkList = await this.readNetworksFromFile();
+        const networksDBUpdated = networkList.filter(net => net.id !== networkId);
+        await this.writeNetworkToFile(networksDBUpdated);
     }
 
 }
