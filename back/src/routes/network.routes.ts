@@ -15,4 +15,8 @@ networkRoutes.post("/", NetworkController.createNetwork);
 // EndPoint para borrar una Network
 networkRoutes.delete("/:id", NetworkController.deleteNetwork);
 
+// EndPoint para consultar10UltimosBloques de una Network
+networkRoutes.get('/block/:id', NetworkController.getLastBlocksNetwork)
+
+
 export default networkRoutes;

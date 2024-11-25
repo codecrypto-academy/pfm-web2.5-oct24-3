@@ -72,4 +72,28 @@ export class NetworkController {
             next(error);
         }
     }
+    
+    public static async lastBlockNetwork (req: Request, res: Response, next: NextFunction) {
+        try {
+            const { id } = req.params;
+
+            await networkService.UltimosBloquesRedById(id)
+            res.send(blocks);
+
+    
+            // Obtener el puerto RPC
+            const port = network.nodos.find((node: any) => node.type === 'rpc')?.PORT;
+            if (!port) {
+                throw new NotFoundError('No se encontró el puerto RPC para la red.');
+            }
+    
+            // Obtener los bloques de la red
+            const blocks = await obtenerBloques(port);
+    
+            // Enviar los bloques como respuesta
+            res.send(blocks);
+        } catch (error) {
+            next(error);
+        }
+    }
 }
