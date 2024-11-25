@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "./Contextmenu.css";
+import "./AddNetwork.css";
 
 
 interface Nodo {
@@ -95,144 +95,154 @@ const AddNetwork: React.FC<AddNetworkProps> = ({ onClose, onNetworkAdded }) => {
   };
 
   return (
-    <div className="add-network-form">
-      <h2>Añadir Red</h2>
-      <form onSubmit={handleSubmit} className="form-columns">
-        {/* Columna izquierda */}
-        <div className="form-column-left">
-          <label>Network ID:</label>
-          <input
-            type="text"
-            name="id"
-            value={network.id}
-            onChange={handleInputChange}
-            required
-          />
-
-          <label>Chain ID:</label>
-          <input
-            type="text"
-            name="chainId"
-            value={network.chainId}
-            onChange={handleInputChange}
-            required
-          />
-
-          <label>Subnet:</label>
-          <input
-            type="text"
-            name="subnet"
-            value={network.subnet}
-            onChange={handleInputChange}
-            required
-          />
-
-          <label>IP Bootnode:</label>
-          <input
-            type="text"
-            name="ipBootnode"
-            value={network.ipBootnode}
-            onChange={handleInputChange}
-            required
-            pattern="^(?:\d{1,3}\.){3}\d{1,3}$"
-            title="Debe ser una dirección IP válida."
-          />
-        </div>
-
-        {/* Columna derecha */}
-        <div className="form-column-right">
-          <h3>Alloc</h3>
-          {network.alloc.map((alloc, index) => (
-            <div key={index} className="alloc-item">
+    <>
+      {/* Fondo translúcido (backdrop) */}
+      <div className="add-network-backdrop" onClick={onClose}></div>
+  
+      {/* Contenedor del modal */}
+      <div className="add-network-modal">
+        <div className="add-network-form">
+          <h2>Añadir Red</h2>
+          <form onSubmit={handleSubmit} className="form-columns">
+            {/* Columna izquierda */}
+            <div className="form-column-left">
+              <label>Network ID:</label>
               <input
                 type="text"
-                placeholder="Cuenta Ethereum"
-                value={alloc.address}
-                onChange={(e) => handleAllocChange(index, "address", e.target.value)}
+                name="id"
+                value={network.id}
+                onChange={handleInputChange}
                 required
-                pattern="^0x[a-fA-F0-9]{40}$"
-                title="Debe ser una dirección Ethereum válida."
               />
-              <input
-                type="number"
-                placeholder="Saldo"
-                value={alloc.balance === 0 ? "Saldo" : alloc.balance.toString()}
-                onChange={(e) => handleAllocChange(index, "balance", parseFloat(e.target.value))}
-                required
-                min={0}
-                title="El saldo debe ser 0 o un número positivo."
-              />
-              {network.alloc.length > 1 && (
-                <button type="button" onClick={() => removeAlloc(index)}>
-                  Eliminar
-                </button>
-              )}
-            </div>
-          ))}
-          <button type="button" onClick={addAlloc}>
-            + Nuevo Alloc
-          </button>
-        </div>
-
-        {/* Nodos (ancho completo) */}
-        <div className="form-full-width">
-          <h3>Nodos</h3>
-          {network.nodos.map((nodo, index) => (
-            <div key={index} className="nodo-item">
+  
+              <label>Chain ID:</label>
               <input
                 type="text"
-                placeholder="Tipo"
-                value={nodo.type}
-                onChange={(e) => handleNodoChange(index, "type", e.target.value)}
+                name="chainId"
+                value={network.chainId}
+                onChange={handleInputChange}
                 required
               />
+  
+              <label>Subnet:</label>
               <input
                 type="text"
-                placeholder="Nombre"
-                value={nodo.name}
-                onChange={(e) => handleNodoChange(index, "name", e.target.value)}
+                name="subnet"
+                value={network.subnet}
+                onChange={handleInputChange}
                 required
               />
+  
+              <label>IP Bootnode:</label>
               <input
                 type="text"
-                placeholder="IP"
-                value={nodo.ip}
-                onChange={(e) => handleNodoChange(index, "ip", e.target.value)}
+                name="ipBootnode"
+                value={network.ipBootnode}
+                onChange={handleInputChange}
                 required
                 pattern="^(?:\d{1,3}\.){3}\d{1,3}$"
                 title="Debe ser una dirección IP válida."
               />
-              <input
-                type="number"
-                placeholder="Puerto"
-                value={nodo.port}
-                onChange={(e) =>
-                  handleNodoChange(index, "port", parseInt(e.target.value, 10))
-                }
-                required
-                min={1}
-                max={65535}
-              />
-              {network.nodos.length > 1 && (
-                <button type="button" onClick={() => removeNodo(index)}>
-                  Eliminar Nodo
-                </button>
-              )}
             </div>
-          ))}
-          <button type="button" onClick={addNodo}>
-            + Nuevo Nodo
-          </button>
+  
+            {/* Columna derecha */}
+            <div className="form-column-right">
+              <h3>Alloc</h3>
+              {network.alloc.map((alloc, index) => (
+                <div key={index} className="alloc-item">
+                  <input
+                    type="text"
+                    placeholder="Cuenta Ethereum"
+                    value={alloc.address}
+                    onChange={(e) => handleAllocChange(index, "address", e.target.value)}
+                    required
+                    pattern="^0x[a-fA-F0-9]{40}$"
+                    title="Debe ser una dirección Ethereum válida."
+                  />
+                  <input
+                    type="number"
+                    placeholder="Saldo"
+                    value={alloc.balance === 0 ? "Saldo" : alloc.balance.toString()}
+                    onChange={(e) =>
+                      handleAllocChange(index, "balance", parseFloat(e.target.value))
+                    }
+                    required
+                    min={0}
+                    title="El saldo debe ser 0 o un número positivo."
+                  />
+                  {network.alloc.length > 1 && (
+                    <button type="button" onClick={() => removeAlloc(index)}>
+                      Eliminar
+                    </button>
+                  )}
+                </div>
+              ))}
+              <button type="button" onClick={addAlloc}>
+                + Nuevo Alloc
+              </button>
+            </div>
+  
+            {/* Nodos (ancho completo) */}
+            <div className="form-full-width">
+              <h3>Nodos</h3>
+              {network.nodos.map((nodo, index) => (
+                <div key={index} className="nodo-item">
+                  <input
+                    type="text"
+                    placeholder="Tipo"
+                    value={nodo.type}
+                    onChange={(e) => handleNodoChange(index, "type", e.target.value)}
+                    required
+                  />
+                  <input
+                    type="text"
+                    placeholder="Nombre"
+                    value={nodo.name}
+                    onChange={(e) => handleNodoChange(index, "name", e.target.value)}
+                    required
+                  />
+                  <input
+                    type="text"
+                    placeholder="IP"
+                    value={nodo.ip}
+                    onChange={(e) => handleNodoChange(index, "ip", e.target.value)}
+                    required
+                    pattern="^(?:\d{1,3}\.){3}\d{1,3}$"
+                    title="Debe ser una dirección IP válida."
+                  />
+                  <input
+                    type="number"
+                    placeholder="Puerto"
+                    value={nodo.port}
+                    onChange={(e) =>
+                      handleNodoChange(index, "port", parseInt(e.target.value, 10))
+                    }
+                    required
+                    min={1}
+                    max={65535}
+                  />
+                  {network.nodos.length > 1 && (
+                    <button type="button" onClick={() => removeNodo(index)}>
+                      Eliminar Nodo
+                    </button>
+                  )}
+                </div>
+              ))}
+              <button type="button" onClick={addNodo}>
+                + Nuevo Nodo
+              </button>
+            </div>
+  
+            {/* Botón Crear Red */}
+            <button type="submit" className="add-network-button">
+              Crear Red
+            </button>
+          </form>
         </div>
-
-       {/* Botón Crear Red */}
-<button type="submit" className="add-network-button">
-  Crear Red
-</button>
-
-      </form>
-    </div>
+      </div>
+    </>
   );
+  
 };
 
 export default AddNetwork;

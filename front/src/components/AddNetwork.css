@@ -29,5 +29,30 @@
     color: red;
     font-size: 0.9rem;
   }
+  .add-network-modal {
+    position: fixed;
+    top: 10%;
+    right: 5%;
+    background-color: #16141d;
+    padding: 20px;
+    width: 50%; /* Ajusta según el diseño deseado */
+    max-width: 600px; /* Evita que sea demasiado ancho */
+    max-height: 80%; /* Permite que haya espacio en la pantalla */
+    border-radius: 10px;
+    color: #ffffff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    z-index: 1001; /* Asegúrate de que esté encima de todo */
+    overflow-y: auto; /* Habilitar scroll si el contenido excede el tamaño */
+  }
+  
+  .add-network-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Fondo translúcido */
+    z-index: 1000; /* Detrás del modal pero delante del contenido */
+  }
   
   

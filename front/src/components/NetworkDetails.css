@@ -1,0 +1,110 @@
+.network-details-context-menu {
+    position: fixed;
+    top: 10%;
+    right: 5%;
+    background-color: #2c2f3b;
+    padding: 20px;
+    width: 800px;
+    max-height: 90%;
+    border-radius: 10px;
+    color: #ffffff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    overflow-y: auto;
+  }
+  
+  .network-details-close-menu-button {
+    background: none;
+    color: #6a0dad;
+    border: none;
+    font-size: 1.2rem;
+    font-weight: bold;
+    cursor: pointer;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+  }
+  
+  .network-details-close-menu-button:hover {
+    color: #ff4d4d;
+  }
+  
+  .network-details-context-menu-border {
+    border: 3px solid transparent;
+    border-radius: 10px;
+    padding: 10px;
+    transition: border-color 0.3s ease;
+  }
+  
+  .network-details-context-menu-border.up {
+    border-color: #4caf50;
+  }
+  
+  .network-details-context-menu-border.down {
+    border-color: #f44336;
+  }
+  
+  .network-details-button {
+    background-color: #6a0dad;
+    color: #fff;
+    padding: 10px 20px;
+    font-size: 1rem;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    display: block;
+    margin: 15px auto 0;
+  }
+  
+  .network-details-button:hover {
+    background-color: #32cd32;
+  }
+  
+  .network-details-center {
+    text-align: center;
+    margin-bottom: 10px;
+  }
+  
+  .network-details-field-name {
+    font-weight: bold;
+    color: #edf2f4;
+  }
+  
+  .network-details-field-value {
+    color: #8f9ba8;
+  }
+  
+  .network-details-line {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+  }
+  
+  .network-details-modal {
+    position: fixed;
+    top: 10%;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #2c2f3b;
+    padding: 20px;
+    width: 60%;
+    max-width: 700px;
+    max-height: 80%;
+    border-radius: 10px;
+    color: #ffffff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    z-index: 1001;
+    overflow-y: auto;
+  }
+  
+  .network-details-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+  }
+  

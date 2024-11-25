@@ -3,7 +3,6 @@ import ListNetworks from "./ListNetworks";
 import AddNetwork from "./AddNetwork";
 import NetworkDetails from "./NetworkDetails"; // Nuevo componente para los detalles de red
 import "./Home.css";
-import "./Contextmenu.css"; // Asegúrate de importar los estilos del menú contextual
 import { Network } from "../types/Network";
 
 interface HomeProps {
