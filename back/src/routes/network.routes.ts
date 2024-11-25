@@ -12,6 +12,9 @@ networkRoutes.get("/:id", NetworkController.getNetworkById);
 // EndPoint para crear Network
 networkRoutes.post("/", NetworkController.createNetwork);
 
+// EndPoint para levantar Network
+networkRoutes.get("/up/:id", NetworkController.upNetwork);
+
 // EndPoint para borrar una Network
 networkRoutes.delete("/:id", NetworkController.deleteNetwork);
 
