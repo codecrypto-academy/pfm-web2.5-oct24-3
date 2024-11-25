@@ -171,42 +171,20 @@ export class NetworkService {
     public async lastBlockNetwordById(networkId: Network["id"]) {
         const networksDB = await this.readNetworksFromFile();
 
-        if (existeNetwork(networkId, networksDB)) {
-        
-        const pathNetwork = path.join(DIR_NETWORKS, networkId);
-        const network = networksDB.find((i: any) => i.id == networkId);
-
-        const port = network.nodos.find(i => i.type == 'rpc').PORT
+        if (await this.getNetworkById(networkId)) 
+        { 
+            const pathNetwork = path.join(DIR_NETWORKS, networkId);
+            const network = networksDB.find(i => i.id === networkId) as Network;
+            const port = network.nodos.find(i => i.type == 'rpc')?.port
             // creamos el provider 
-        const provider = new ethers.JsonRpcProvider(`http://localhost:${port}`);
-
-        const blockNumber = await provider.getBlockNumber();
-        let promises = [];
+            const provider = new ethers.JsonRpcProvider(`http://localhost:${port}`);
+            const blockNumber = await provider.getBlockNumber();
+            let promises = [];
             for (let i = blockNumber - 10; i < blockNumber; i++) {
                 promises.push(provider.getBlock(i));
             }
         const blocks = await Promise.all(promises);
-        } else {
-            res.status(404).send(`No se ha encontrado la red ${networkId}`);
+        return blocks
         }
-    }
-
-    public async getLasBlockNetwork (port: number){
-        
-        const networksDB = JSON.parse(fs.readFileSync(path.join(DIR_BASE, 'networks.json')).toString());
-
-        const provider = new ethers.JsonRpcProvider(`http://localhost:${port}`);
-        const blockNumber = await provider.getBlockNumber();
-        const promises = [];
-        for (let i = blockNumber - 10; i < blockNumber; i++) {
-            promises.push(provider.getBlock(i));
-        }
-
-    return Promise.all(promises);
-    }
-    
-
-
-
-
+    }    
 };
