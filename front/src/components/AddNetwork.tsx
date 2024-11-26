@@ -37,7 +37,9 @@ const AddNetwork: React.FC<AddNetworkProps> = ({ onClose, onNetworkAdded }) => {
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
     const { name, value } = e.target;
-    setNetwork((prev) => ({ ...prev, [name]: value }));
+    setNetwork((prev) => ({
+      ...prev,
+      [name]: name === "chainId" ? Number(value) : value }));
   };
 
   const handleAllocChange = (index: number, value: string) => {
@@ -135,7 +137,7 @@ const AddNetwork: React.FC<AddNetworkProps> = ({ onClose, onNetworkAdded }) => {
               <label htmlFor="chain-id" className="label-chain-id">Chain ID:</label>
               <input
                 id="chain-id"
-                type="number"
+                type="text"
                 name="chainId"
                 value={network.chainId ?? ""}
                 onChange={handleInputChange}
