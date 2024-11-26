@@ -40,9 +40,7 @@
         "subnet": "90.80.40.0/24",
         "ipBootnode": "90.80.40.2",
         "alloc": [
-            "0x60bdd53647bE24c12374d09F2624ea76BD4D1796",
-            "0x1C1A667548164C736Fac055575eE8Ec0D7A8A987",
-            "0x9c0EFC6f3F909a047Cd099Af46de22959f6bd48e"
+            "0x60bdd53647bE24c12374d09F2624ea76BD4D1796"
         ],
         "nodos": [
             {
