@@ -1,8 +1,11 @@
-import path from 'path';
 import fs from 'fs';
+import path from 'path';
 import { execSync } from 'child_process';
 import { Network } from '../models/network.model';
 import { NetworkAlreadyExistsError, NetworkNotFoundError, NetworkSaveError, NoFileExistsError } from '../errors/customErrors';
+import { creaContraseña } from '../utils/utils';
+import { DockerService } from './docker.service';
+import { EnvService } from './env.service';
 
 const DIR_BASE = path.join(__dirname, '..', '..', 'datos');
 const DIR_NETWORKS = path.join(DIR_BASE, 'networks');
@@ -53,6 +56,36 @@ export class NetworkService {
         }
     }
 
+    private async creaDirectorioNetwork(pathDirNetwork: string): Promise<void> {
+
+        if (await this.existingDir(pathDirNetwork)) {
+            fs.rmSync(pathDirNetwork, { recursive: true });
+        }
+
+        fs.mkdirSync(pathDirNetwork, { recursive: true });
+        fs.writeFileSync(path.join(pathDirNetwork, 'password.txt'), creaContraseña());
+    }
+
+    private async creaGenesis(pathDirNetwork: string, network: Network): Promise<void> {
+
+        let genesisTemplate = JSON.parse(fs.readFileSync(path.join(DIR_BASE, 'templates', 'genesis_template.json'), 'utf8'));
+
+        genesisTemplate.config.chainId = network.chainId;
+
+        genesisTemplate.alloc = network.alloc.reduce((acc: { [x: string]: { balance: string; }; }, i: string) => {
+            const cuenta = i;
+            acc[cuenta] = { balance: "20000000000000000000000" }
+            return acc;
+        }, {});
+
+        let cuenta = fs.readFileSync(path.join(pathDirNetwork, 'address.txt')).toString()
+        cuenta = cuenta.substring(0, 2) == '0x' ? cuenta.substring(2) : cuenta;
+
+        genesisTemplate.extradata = "0x" + "0".repeat(64) + cuenta.trim() + "0".repeat(130);
+
+        fs.writeFileSync(path.join(pathDirNetwork, 'genesis.json'), JSON.stringify(genesisTemplate, null, 4));
+    }
+
     public async getAllNetworks(): Promise<Network[]> {
         return await this.readNetworksFromFile();
     }
@@ -85,7 +118,36 @@ export class NetworkService {
         return network;
     }
 
-    public async deleteNetworkById(networkId: Network["id"]) {
+    public async upNetworkById(networkId: Network["id"]): Promise<void> {
+
+        const networkDB = await this.readNetworksFromFile();
+
+        if (await this.getNetworkById(networkId)) {
+
+            const pathDirNetwork = path.join(DIR_NETWORKS, networkId);
+
+            const network = networkDB.find(net => net.id === networkId) as Network;
+
+            await this.creaDirectorioNetwork(pathDirNetwork);
+
+            await DockerService.creaCuentaBootnode(pathDirNetwork, network);
+
+            await this.creaGenesis(pathDirNetwork, network);
+
+            fs.writeFileSync(path.join(DIR_BASE, 'networks.json'), JSON.stringify(networkDB, null, 4));
+
+            DockerService.creaDockerCompose(pathDirNetwork, network);
+
+            await EnvService.creaEnv(pathDirNetwork, network);
+
+            const dockerComposePath = path.join(pathDirNetwork, 'docker-compose.yml');
+            console.log(`docker-compose -f ${dockerComposePath} up -d`);
+            execSync(`docker-compose -f ${dockerComposePath} up -d`);
+            console.log('EJECUTADO');
+        }
+    }
+
+    public async deleteNetworkById(networkId: Network["id"]): Promise<void> {
 
         const pathDirNetwork = path.join(DIR_NETWORKS, networkId);
 
