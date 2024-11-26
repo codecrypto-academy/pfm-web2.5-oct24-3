@@ -1,0 +1,45 @@
+.faucet-modal {
+    position: fixed;
+    top: 20%;
+    left: 50%;
+    transform: translate(-50%, -20%);
+    width: 400px;
+    background-color: #16141d;
+    border: 2px solid #5b0796;
+    border-radius: 10px;
+    padding: 20px;
+    color: #ffffff;
+    z-index: 1002;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  }
+  
+  .faucet-send-button {
+    background-color: #5b0796;
+    color: #ffffff;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+  }
+  
+  .faucet-send-button:hover {
+    background-color: #8b0bbd;
+  }
+  
+  .close-menu-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
+    color: #ffffff;
+    border: none;
+    font-size: 1.2rem;
+    font-weight: bold;
+    cursor: pointer;
+  }
+  
+  .close-menu-button:hover {
+    color: #ff4d4d;
+  }
+  

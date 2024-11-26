@@ -1,18 +1,20 @@
 import { useState } from "react";
 import ListNetworks from "./ListNetworks";
 import AddNetwork from "./AddNetwork";
-import NetworkDetails from "./NetworkDetails"; // Nuevo componente para los detalles de red
+import NetworkDetails from "./NetworkDetails";
 import "./Home.css";
 import { Network } from "../types/Network";
+import { useWalletContext } from "./WalletContext"; // Importar el contexto de la wallet
 
 interface HomeProps {
   networks: Network[];
   setNetworks: React.Dispatch<React.SetStateAction<Network[]>>;
-  onNetworkClick: (network: Network) => void; // Añadimos la nueva prop
+  onNetworkClick: (network: Network) => void;
 }
 
-
 export default function Home({ networks, setNetworks }: HomeProps) {
+  const { walletAddress } = useWalletContext(); // Accedemos a la dirección de la wallet desde el contexto
+
   const [isMenuOpen, setIsMenuOpen] = useState(false); // Controla el menú para añadir redes
   const [selectedNetwork, setSelectedNetwork] = useState<Network | null>(null); // Controla el menú de detalles
 
@@ -42,24 +44,28 @@ export default function Home({ networks, setNetworks }: HomeProps) {
   return (
     <div className="home-container">
       <h1 className="home-title">Lista de Redes</h1>
+      {walletAddress && (
+        <div className="wallet-info">
+          {/* Mostrar el texto conectado */}
+          Conectado: <span>{walletAddress}</span>
+        </div>
+      )}
       <button className="add-network-button" onClick={toggleMenu}>
         Añadir Red
       </button>
-  
+
       {isMenuOpen && (
         <div className="add-network-context-menu">
-          {/* Eliminamos el botón de cierre aquí porque ya está dentro del modal AddNetwork */}
           <AddNetwork onClose={closeMenu} onNetworkAdded={handleNetworkAdded} />
         </div>
       )}
-  
+
       {selectedNetwork && (
         <div className="network-details-context-menu">
-          {/* Eliminamos el botón de cierre aquí porque ya está dentro del modal NetworkDetails */}
           <NetworkDetails network={selectedNetwork} onClose={closeDetailsMenu} />
         </div>
       )}
-  
+
       <ListNetworks
         networks={networks}
         setNetworks={setNetworks}
@@ -67,5 +73,4 @@ export default function Home({ networks, setNetworks }: HomeProps) {
       />
     </div>
   );
-  
 }

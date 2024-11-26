@@ -1,6 +1,6 @@
 export interface Alloc {
   address: string; // Dirección Ethereum
-  balance?: number; // Saldo asignado
+  balance: number; // Saldo asignado
 }
 
 export interface Nodo {
