@@ -150,6 +150,17 @@ export class NetworkService {
         }
     }
 
+    public async downNetworkById(networkId: Network["id"]): Promise<void> {
+
+        const pathDirNetwork = path.join(DIR_NETWORKS, networkId);
+        const dockerComposePath = path.join(pathDirNetwork, 'docker-compose.yml');
+
+        if (await this.existingDir(pathDirNetwork) && fs.existsSync(dockerComposePath)) {
+            // Borramos contenedores de Docker
+            execSync(`docker-compose -f ${dockerComposePath} down`);
+        }
+    }
+
     public async deleteNetworkById(networkId: Network["id"]): Promise<void> {
 
         const pathDirNetwork = path.join(DIR_NETWORKS, networkId);

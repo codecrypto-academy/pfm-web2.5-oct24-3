@@ -73,6 +73,21 @@ export class NetworkController {
         }
     }
 
+    public static async downNetwork(req: Request, res: Response, next: NextFunction) {
+
+        try {
+
+            const { id } = req.params;
+
+            await networkService.downNetworkById(id);
+
+            res.status(200).send();
+
+        } catch (error) {
+            next(error);
+        }
+    }
+
     public static async deleteNetwork(req: Request, res: Response, next: NextFunction) {
 
         try {
