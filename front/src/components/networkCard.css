@@ -68,3 +68,25 @@
   background-color: #34405e; /* Color más oscuro al hacer clic */
   transform: scale(0.98); /* Efecto de clic */
 }
+
+.network-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.delete-network-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+.delete-network-button img {
+  width: 20px;
+  height: 20px;
+}
+
+.delete-network-button:hover img {
+  filter: brightness(0.8);
+}
