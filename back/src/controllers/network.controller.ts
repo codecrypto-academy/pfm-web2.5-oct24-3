@@ -88,6 +88,21 @@ export class NetworkController {
         }
     }
 
+    public static async restartNetwork(req: Request, res: Response, next: NextFunction) {
+
+        try {
+
+            const { id } = req.params;
+
+            await networkService.restartNetworkById(id);
+
+            res.status(200).send();
+
+        } catch (error) {
+            next(error);
+        }
+    }
+
     public static async deleteNetwork(req: Request, res: Response, next: NextFunction) {
 
         try {

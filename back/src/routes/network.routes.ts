@@ -18,6 +18,9 @@ networkRoutes.get("/up/:id", NetworkController.upNetwork);
 // EndPoint para bajar Network
 networkRoutes.get("/down/:id", NetworkController.downNetwork);
 
+// EndPoint para bajar Network
+networkRoutes.get("/restart/:id", NetworkController.restartNetwork);
+
 // EndPoint para borrar una Network
 networkRoutes.delete("/:id", NetworkController.deleteNetwork);
 
