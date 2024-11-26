@@ -23,14 +23,14 @@ interface AddNetworkProps {
   onNetworkAdded: (newNetwork: Network) => void;
 }
 
-const AddNetwork: React.FC<AddNetworkProps> = ({ onClose, onNetworkAdded }) => {
+const AddNetwork: React.FC<AddNetworkProps> = ({ onClose }) => {
   const [network, setNetwork] = useState<Network>({
     id: "",
     chainId: undefined,
     subnet: "",
     ipBootnode: "",
     alloc: [""],
-    nodos: [{ type: "", name: "", ip: "", port: 0 }],
+    nodos: [{ type: "rpc", name: "", ip: "", port: 0 }],
   });
 
   const handleInputChange = (
@@ -74,7 +74,7 @@ const AddNetwork: React.FC<AddNetworkProps> = ({ onClose, onNetworkAdded }) => {
   const addNodo = () => {
     setNetwork((prev) => ({
       ...prev,
-      nodos: [...prev.nodos, { type: "", name: "", ip: "", port: 0 }],
+      nodos: [...prev.nodos, { type: "rpc || miner || normal", name: "", ip: "", port: 0 }],
     }));
   };
 
@@ -99,7 +99,7 @@ const AddNetwork: React.FC<AddNetworkProps> = ({ onClose, onNetworkAdded }) => {
           throw new Error('Error al crear la red');
         }
       })
-    //onNetworkAdded(network);
+      
     onClose();
   };
 
@@ -207,7 +207,7 @@ const AddNetwork: React.FC<AddNetworkProps> = ({ onClose, onNetworkAdded }) => {
             {network.nodos.map((nodo, index) => (
               <div key={index} className="nodo-item">
                 <select
-                  value={nodo.type || "rpc"}
+                  value={nodo.type}
                   onChange={(e) => handleNodoChange(index, "type", e.target.value)}
                   required
                 >
@@ -232,14 +232,13 @@ const AddNetwork: React.FC<AddNetworkProps> = ({ onClose, onNetworkAdded }) => {
                   title="Debe ser una dirección IP válida."
                 />
                 <input
-                  type="number"
+                  type="text"
                   placeholder="Puerto"
                   value={nodo.port}
                   onChange={(e) =>
                     handleNodoChange(index, "port", parseInt(e.target.value, 10))
                   }
                   required
-                  min={1}
                   max={65535}
                 />
                 {network.nodos.length > 1 && (
