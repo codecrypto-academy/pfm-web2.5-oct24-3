@@ -2,7 +2,7 @@
 
 import React from "react";
 import "./networkCard.css";
-import basuraIcon from "../assets/basura.svg"; // Asegúrate de que el archivo exista en esta ruta
+import basuraIcon from "/basura.svg"; // Asegúrate de que el archivo exista en esta ruta
 
 interface NetworkCardProps {
   name: string;
@@ -34,8 +34,9 @@ const NetworkCard: React.FC<NetworkCardProps> = ({
         <h3 className="network-name">{name}</h3>
         {/* Ícono de basura para eliminar la red */}
         <button className="delete-network-button" onClick={handleDelete}>
-          <img src={basuraIcon} alt="Eliminar red" />
+        <img src={basuraIcon} alt="Eliminar red" />
         </button>
+
       </div>
       <p className={`network-status ${status === "UP" ? "status-up" : "status-down"}`}>
         {status === "UP" ? "Online" : "Offline"}

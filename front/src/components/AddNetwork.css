@@ -282,23 +282,40 @@
 }
 
 
+/* Iconos de eliminar (general para nodos y allocs) */
 .delete-icon {
-    width: 20px; /* Ancho del icono */
-    height: 20px; /* Altura del icono */
-    color: #5b0796;
-    cursor: pointer; /* Cambia el cursor al pasar el mouse */
-    transition: transform 0.2s ease; /* Animación suave */
-}
-
-.delete-icon:hover {
-    transform: scale(1.1); /* Aumenta ligeramente el tamaño al pasar el mouse */
-    filter: brightness(1.2); /* Hace el icono un poco más brillante */
-}
-
-.delete-icon:active {
-    transform: scale(0.9); /* Reduce el tamaño al hacer clic */
-    filter: brightness(0.8); /* Oscurece ligeramente el icono */
-}
+    width: 20px; /* Tamaño del ícono */
+    height: 20px;
+    cursor: pointer; /* Cursor de puntero para indicar interactividad */
+    transition: transform 0.2s ease, filter 0.2s ease; /* Animación suave */
+    filter: invert(1); /* Hace que el icono sea blanco sobre fondo oscuro */
+    background: none; /* Elimina cualquier fondo heredado */
+    border: none; /* Elimina bordes extra */
+    padding: 0; /* Asegura que no haya espaciado interno */
+  }
+  
+  /* Efecto al pasar el mouse (hover) */
+  .delete-icon:hover {
+    transform: scale(1.1); /* Aumenta ligeramente el tamaño */
+    filter: brightness(1.2); /* Aumenta el brillo */
+  }
+  
+  /* Efecto al hacer clic (active) */
+  .delete-icon:active {
+    transform: scale(0.9); /* Reduce ligeramente el tamaño */
+    filter: brightness(0.8); /* Oscurece ligeramente el ícono */
+  }
+  
+  /* Estilo específico para el botón contenedor (por si existe) */
+  .delete-nodo-button, .delete-alloc-button {
+    all: unset; /* Resetea todos los estilos del botón */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0; /* Elimina espaciado interno */
+    margin: 0; /* Elimina márgenes heredados */
+  }
+  
 
 .nodos-title {
     font-size: 1.0rem; /* Tamaño de fuente */
@@ -342,3 +359,7 @@
     background-color: #340555; /* Fondo más oscuro */
     transform: scale(0.98); /* Hace que el botón se "hunda" un poco */
 }
+
+
+
+
