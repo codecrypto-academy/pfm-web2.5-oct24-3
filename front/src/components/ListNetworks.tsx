@@ -6,13 +6,15 @@ import API_BASE_URL from "../apiConfig";
 interface ListNetworksProps {
   networks: Network[];
   setNetworks: React.Dispatch<React.SetStateAction<Network[]>>;
-  onNetworkClick: (network: Network) => void; // Nueva prop para manejar el clic en la red
+  onNetworkClick: (network: Network) => void;
+  onDeleteNetwork: (networkId: string) => void; // Propiedad añadida para manejar eliminación
 }
 
 const ListNetworks: React.FC<ListNetworksProps> = ({
   networks,
   setNetworks,
   onNetworkClick,
+  onDeleteNetwork, // Aseguramos que se recibe esta prop
 }) => {
   const handleAction = (action: "up" | "down" | "restart", id: string) => {
     fetch(`${API_BASE_URL}/network/${action}/${id}`, { method: "GET" })
@@ -20,7 +22,6 @@ const ListNetworks: React.FC<ListNetworksProps> = ({
         if (!response.ok) {
           throw new Error(`Error al ejecutar la acción ${action} para la red ${id}`);
         }
-
       })
       .then(() => {
         if (action === "up") {
@@ -38,6 +39,14 @@ const ListNetworks: React.FC<ListNetworksProps> = ({
       });
   };
 
+  const handleDelete = (e: React.MouseEvent, networkId: string) => {
+    e.stopPropagation(); // Evitar que el clic abra el menú de detalles
+    const confirmDelete = window.confirm("¿Estás seguro de que deseas eliminar esta red?");
+    if (confirmDelete) {
+      onDeleteNetwork(networkId); // Llamar a la prop para eliminar la red
+    }
+  };
+
   return (
     <div className="container">
       <div className="network-cards">
@@ -47,7 +56,16 @@ const ListNetworks: React.FC<ListNetworksProps> = ({
             className={`network-card ${network.isUp ? "up" : "down"}`}
             onClick={() => onNetworkClick(network)} // Llama a la nueva prop al hacer clic
           >
-            <h2>Network ID: {network.id}</h2>
+            <div className="network-header">
+              <h2>Network ID: {network.id}</h2>
+              {/* Botón de eliminación */}
+              <button
+                className="delete-network-button"
+                onClick={(e) => handleDelete(e, network.id)}
+              >
+                <img src="/basura.svg" alt="Eliminar red" />
+              </button>
+            </div>
             <p>Chain ID: {network.chainId}</p>
             <p>Subnet: {network.subnet}</p>
             <p>IP Bootnode: {network.ipBootnode}</p>

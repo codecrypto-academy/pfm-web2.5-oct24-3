@@ -81,6 +81,10 @@
   cursor: pointer;
   padding: 0;
 }
+.delete-network-button img {
+  filter: invert(1); /* Invierte los colores para que el negro sea blanco */
+}
+
 
 .delete-network-button img {
   width: 20px;
@@ -89,4 +93,5 @@
 
 .delete-network-button:hover img {
   filter: brightness(0.8);
+  color: #4caf50;
 }

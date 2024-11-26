@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "./AddNetwork.css";
 import API_BASE_URL from "../apiConfig";
+import basuraIcon from "/basura.svg"; // Importamos el ícono
 
 interface Nodo {
   type: string;
@@ -105,10 +106,8 @@ const AddNetwork: React.FC<AddNetworkProps> = ({ onClose }) => {
 
   return (
     <>
-      {/* Fondo translúcido (backdrop) */}
       <div className="add-network-backdrop" onClick={onClose}></div>
 
-      {/* Contenedor del modal */}
       <div className="add-network-modal">
         <button className="close-menu-button" onClick={onClose}>
           X
@@ -122,9 +121,8 @@ const AddNetwork: React.FC<AddNetworkProps> = ({ onClose }) => {
           <div className="modal-divider"></div>
 
           <form onSubmit={handleSubmit} className="form-columns">
-            {/* Primera línea de inputs */}
             <div className="input-row">
-              <label htmlFor="network-id" className="label-network-id">Network ID:</label>
+              <label htmlFor="network-id">Network ID:</label>
               <input
                 id="network-id"
                 type="text"
@@ -132,9 +130,8 @@ const AddNetwork: React.FC<AddNetworkProps> = ({ onClose }) => {
                 value={network.id}
                 onChange={handleInputChange}
                 required
-                className="input-network-id"
               />
-              <label htmlFor="chain-id" className="label-chain-id">Chain ID:</label>
+              <label htmlFor="chain-id">Chain ID:</label>
               <input
                 id="chain-id"
                 type="text"
@@ -142,13 +139,11 @@ const AddNetwork: React.FC<AddNetworkProps> = ({ onClose }) => {
                 value={network.chainId ?? ""}
                 onChange={handleInputChange}
                 required
-                className="input-chain-id"
               />
             </div>
 
-            {/* Segunda línea de inputs */}
             <div className="input-row">
-              <label htmlFor="subnet" className="label-subnet">Subnet:</label>
+              <label htmlFor="subnet">Subnet:</label>
               <input
                 id="subnet"
                 type="text"
@@ -156,9 +151,8 @@ const AddNetwork: React.FC<AddNetworkProps> = ({ onClose }) => {
                 value={network.subnet}
                 onChange={handleInputChange}
                 required
-                className="input-subnet"
               />
-              <label htmlFor="ip-bootnode" className="label-ip-bootnode">IP Bootnode:</label>
+              <label htmlFor="ip-bootnode">IP Bootnode:</label>
               <input
                 id="ip-bootnode"
                 type="text"
@@ -168,12 +162,10 @@ const AddNetwork: React.FC<AddNetworkProps> = ({ onClose }) => {
                 required
                 pattern="^(?:\d{1,3}\.){3}\d{1,3}$"
                 title="Debe ser una dirección IP válida."
-                className="input-ip-bootnode"
               />
             </div>
 
-            {/* Inputs de Alloc */}
-            <h3 className="alloc-title">Alloc:</h3>
+            <h3>Alloc:</h3>
             {network.alloc.map((alloc, index) => (
               <div key={index} className="alloc-item">
                 <input
@@ -187,23 +179,19 @@ const AddNetwork: React.FC<AddNetworkProps> = ({ onClose }) => {
                 />
                 {network.alloc.length > 1 && (
                   <img
-                    src="/basura.svg" // Ruta al icono
+                    src={basuraIcon}
                     alt="Eliminar"
-                    className="delete-icon" // Clase para estilizar el icono
-                    onClick={() => removeAlloc(index)} // Lógica para eliminar
+                    className="delete-icon"
+                    onClick={() => removeAlloc(index)}
                   />
                 )}
-
               </div>
             ))}
-            <button type="button" className="new-alloc-button" onClick={addAlloc}>
+            <button type="button" onClick={addAlloc}>
               + Nuevo Alloc
             </button>
 
-
-            {/* Inputs de Nodo */}
-            <h3 className="nodos-title">Nodos:</h3>
-
+            <h3>Nodos:</h3>
             {network.nodos.map((nodo, index) => (
               <div key={index} className="nodo-item">
                 <select
@@ -242,21 +230,17 @@ const AddNetwork: React.FC<AddNetworkProps> = ({ onClose }) => {
                   max={65535}
                 />
                 {network.nodos.length > 1 && (
-                  <button type="button" onClick={() => removeNodo(index)}>
-                    Eliminar Nodo
+                  <button className="delete-nodo-button" onClick={() => removeNodo(index)}>
+                    <img src={basuraIcon} alt="Eliminar Nodo" className="delete-icon" />
                   </button>
                 )}
               </div>
             ))}
-            <button type="button" className="new-node-button" onClick={addNodo}>
+            <button type="button" onClick={addNodo}>
               Añadir Nodo
             </button>
 
-
-            {/* Botón Crear Red */}
-            <button type="submit" className="create-network-button">
-              Crear Red
-            </button>
+            <button type="submit">Crear Red</button>
           </form>
         </div>
       </div>
@@ -265,5 +249,3 @@ const AddNetwork: React.FC<AddNetworkProps> = ({ onClose }) => {
 };
 
 export default AddNetwork;
-
-

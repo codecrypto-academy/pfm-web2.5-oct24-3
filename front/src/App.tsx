@@ -68,15 +68,19 @@ export default function App() {
               }
             />
             <Route
-              path="/net/list"
-              element={
-                <ListNetworks
-                  networks={networks}
-                  setNetworks={setNetworks}
-                  onNetworkClick={handleNetworkClick}
-                />
-              }
-            />
+  path="/net/list"
+  element={
+    <ListNetworks
+      networks={networks}
+      setNetworks={setNetworks}
+      onNetworkClick={handleNetworkClick}
+      onDeleteNetwork={(networkId: string) => {
+        setNetworks((prev) => prev.filter((network) => network.id !== networkId));
+      }}
+    />
+  }
+/>
+
             <Route
               path="/net/add"
               element={<AddNetwork onClose={() => {}} onNetworkAdded={handleAddNetwork} />}
