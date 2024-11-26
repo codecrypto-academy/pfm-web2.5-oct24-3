@@ -50,7 +50,7 @@ const Faucet: React.FC<FaucetProps> = ({ networkId, onClose, availableAccounts }
     // Obtener red activa en MetaMask
     const provider = new ethers.BrowserProvider(ethereum); // Actualizado para ethers v6
     provider.getNetwork().then((network: ethers.Network) => {
-      setCurrentNetwork(network.chainId);
+      setCurrentNetwork(Number(network.chainId));
     });
   }, []);
 
@@ -73,7 +73,7 @@ const Faucet: React.FC<FaucetProps> = ({ networkId, onClose, availableAccounts }
       return;
     }
 
-    if (currentNetwork !== parseInt(networkId)) {
+    if (currentNetwork !== parseInt( networkId)) {
       alert("Por favor, conéctate a la red correspondiente en MetaMask.");
       return;
     }
