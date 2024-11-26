@@ -127,19 +127,21 @@ export class NetworkService {
 
             const pathDirNetwork = path.join(DIR_NETWORKS, networkId);
 
-            const network = networkDB.find(net => net.id === networkId) as Network;
+            if (!(await this.existingDir(pathDirNetwork) &&
+                fs.existsSync(path.join(pathDirNetwork, "docker-compose.yml")))) {
 
-            await this.creaDirectorioNetwork(pathDirNetwork);
+                const network = networkDB.find(net => net.id === networkId) as Network;
 
-            await DockerService.creaCuentaBootnode(pathDirNetwork, network);
+                await this.creaDirectorioNetwork(pathDirNetwork);
 
-            await this.creaGenesis(pathDirNetwork, network);
+                await DockerService.creaCuentaBootnode(pathDirNetwork, network);
 
-            fs.writeFileSync(path.join(DIR_BASE, 'networks.json'), JSON.stringify(networkDB, null, 4));
+                await this.creaGenesis(pathDirNetwork, network);
 
-            DockerService.creaDockerCompose(pathDirNetwork, network);
+                DockerService.creaDockerCompose(pathDirNetwork, network);
 
-            await EnvService.creaEnv(pathDirNetwork, network);
+                await EnvService.creaEnv(pathDirNetwork, network);
+            }
 
             const dockerComposePath = path.join(pathDirNetwork, 'docker-compose.yml');
             console.log(`docker-compose -f ${dockerComposePath} up -d`);
@@ -171,8 +173,7 @@ export class NetworkService {
     public async lastBlockNetwordById(networkId: Network["id"]) {
         const networksDB = await this.readNetworksFromFile();
 
-        if (await this.getNetworkById(networkId)) 
-        { 
+        if (await this.getNetworkById(networkId)) {
             const pathNetwork = path.join(DIR_NETWORKS, networkId);
             const network = networksDB.find(i => i.id === networkId) as Network;
             const port = network.nodos.find(i => i.type == 'rpc')?.port
@@ -183,8 +184,8 @@ export class NetworkService {
             for (let i = blockNumber - 10; i < blockNumber; i++) {
                 promises.push(provider.getBlock(i));
             }
-        const blocks = await Promise.all(promises);
-        return blocks
+            const blocks = await Promise.all(promises);
+            return blocks
         }
-    }    
+    }
 };
