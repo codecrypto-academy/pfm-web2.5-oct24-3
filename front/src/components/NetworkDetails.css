@@ -1,110 +1,107 @@
-.network-details-context-menu {
-    position: fixed;
-    top: 10%;
-    right: 5%;
-    background-color: #2c2f3b;
-    padding: 20px;
-    width: 800px;
-    max-height: 90%;
-    border-radius: 10px;
-    color: #ffffff;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-    z-index: 1000;
-    overflow-y: auto;
-  }
-  
-  .network-details-close-menu-button {
-    background: none;
-    color: #6a0dad;
-    border: none;
-    font-size: 1.2rem;
-    font-weight: bold;
-    cursor: pointer;
-    position: absolute;
-    top: 10px;
-    right: 10px;
-  }
-  
-  .network-details-close-menu-button:hover {
-    color: #ff4d4d;
-  }
-  
-  .network-details-context-menu-border {
-    border: 3px solid transparent;
-    border-radius: 10px;
-    padding: 10px;
-    transition: border-color 0.3s ease;
-  }
-  
-  .network-details-context-menu-border.up {
-    border-color: #4caf50;
-  }
-  
-  .network-details-context-menu-border.down {
-    border-color: #f44336;
-  }
-  
-  .network-details-button {
-    background-color: #6a0dad;
-    color: #fff;
-    padding: 10px 20px;
-    font-size: 1rem;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    display: block;
-    margin: 15px auto 0;
-  }
-  
-  .network-details-button:hover {
-    background-color: #32cd32;
-  }
-  
-  .network-details-center {
-    text-align: center;
-    margin-bottom: 10px;
-  }
-  
-  .network-details-field-name {
-    font-weight: bold;
-    color: #edf2f4;
-  }
-  
-  .network-details-field-value {
-    color: #8f9ba8;
-  }
-  
-  .network-details-line {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 8px;
-  }
-  
-  .network-details-modal {
-    position: fixed;
-    top: 10%;
-    left: 50%;
-    transform: translateX(-50%);
-    background-color: #2c2f3b;
-    padding: 20px;
-    width: 60%;
-    max-width: 700px;
-    max-height: 80%;
-    border-radius: 10px;
-    color: #ffffff;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-    z-index: 1001;
-    overflow-y: auto;
-  }
-  
-  .network-details-backdrop {
+/* Fondo translúcido detrás del modal */
+.network-details-backdrop {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    z-index: 1000;
-  }
-  
+    background-color: rgba(0, 0, 0, 0.5); /* Fondo translúcido */
+    z-index: 1000; /* Detrás del modal pero delante del contenido */
+}
+
+/* Contenedor principal del modal */
+.network-details-modal {
+    position: fixed;
+    top: 10%; /* Ubicación similar al modal de AddNetwork */
+    right: 5%;
+    background-color: #16141d; /* Mismo fondo oscuro */
+    padding: 20px;
+    width: 50%; /* Ajusta el ancho */
+    max-width: 600px; /* Evita que sea demasiado ancho */
+    max-height: 80%; /* Evita que ocupe toda la pantalla */
+    border-radius: 10px; /* Bordes redondeados */
+    color: #ffffff; /* Texto blanco */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3); /* Sombra */
+    z-index: 1001; /* Encima del backdrop */
+    overflow-y: auto; /* Habilita scroll si el contenido excede */
+    border: 2px solid #5b0796; /* Borde morado */
+}
+
+/* Botón de cierre */
+.close-menu-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
+    color: #5b0796; /* Mismo color púrpura */
+    border: none;
+    font-size: 1.2rem;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close-menu-button:hover {
+    color: #ffffff; /* Blanco al pasar el mouse */
+}
+
+/* Título principal del modal */
+.network-details-modal h2 {
+    font-size: 1.5rem;
+    color: #ffffff;
+    margin-bottom: 15px;
+    text-align: left;
+}
+
+/* Sección de detalles */
+.network-details-line {
+    margin-bottom: 15px; /* Espaciado entre líneas */
+    padding: 10px;
+    background-color: #1a1b26; /* Fondo oscuro para cada línea */
+    border-radius: 5px; /* Bordes redondeados */
+    border: 1px solid #5b0796; /* Borde morado */
+}
+
+/* Estilo de los encabezados dentro del modal */
+.network-details-modal h3 {
+    font-size: 1.2rem;
+    color: #5b0796;
+    margin-bottom: 10px;
+    text-align: left;
+    border-bottom: 1px solid #5b0796; /* Línea decorativa */
+    padding-bottom: 5px;
+}
+
+/* Estilo de los textos dentro de las líneas */
+.network-details-line p {
+    font-size: 0.9rem;
+    color: #d1d1d1;
+    margin: 5px 0;
+}
+
+/* Botón de acción dentro del modal */
+.add-network-button {
+    width: 160px;
+    height: 40px;
+    font-size: 1rem;
+    padding: 10px 15px;
+    background-color: #5b0796;
+    color: #ffffff;
+    border: 2px solid #2d053a;
+    border-radius: 8px;
+    margin: 20px auto;
+    display: block;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.add-network-button:hover {
+    background-color: #8b0bbd;
+    color: #f0f0f0;
+    border-color: #8b0bbd;
+}
+
+.add-network-button:active {
+    background-color: #340555;
+    transform: scale(0.98);
+}

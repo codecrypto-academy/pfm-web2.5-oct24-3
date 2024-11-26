@@ -39,3 +39,27 @@
     max-height: 80vh;
   }
   
+  .wallet-info {
+    position: absolute;
+    top: 50px;
+    right: 300px;
+    background-color: #16141d;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #4caf50;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    font-size: 14px;
+    font-weight: bold;
+    color: #4caf50;
+  }
+
+  .disconnect-wallet {
+    margin-left: 10px; /* Opcional: se usa si necesitas que el botón quede alineado al lado derecho */
+    padding: 5px 10px;
+    border-radius: 5px;
+    background-color: #6c43cf;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+  }
+  
