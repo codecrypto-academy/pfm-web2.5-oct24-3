@@ -74,7 +74,7 @@ export class NetworkService {
 
         genesisTemplate.alloc = network.alloc.reduce((acc: { [x: string]: { balance: string; }; }, i: string) => {
             const cuenta = i;
-            acc[cuenta] = { balance: "400000000" }
+            acc[cuenta] = { balance: "20000000000000000000000" }
             return acc;
         }, {});
 
