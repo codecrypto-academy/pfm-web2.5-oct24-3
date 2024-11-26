@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import "./AddNetwork.css";
 
-
 interface Nodo {
   type: string;
   name: string;
@@ -98,43 +97,60 @@ const AddNetwork: React.FC<AddNetworkProps> = ({ onClose, onNetworkAdded }) => {
     <>
       {/* Fondo translúcido (backdrop) */}
       <div className="add-network-backdrop" onClick={onClose}></div>
-  
+
       {/* Contenedor del modal */}
       <div className="add-network-modal">
+        <button className="close-menu-button" onClick={onClose}>
+          X
+        </button>
+
         <div className="add-network-form">
-          <h2>Añadir Red</h2>
+          <div className="modal-header">
+            <h2 className="modal-title">Añadir Red</h2>
+            <span className="modal-subtitle">CONFIGURA TU RED PRIVADA DE ETH</span>
+          </div>
+          <div className="modal-divider"></div>
+
           <form onSubmit={handleSubmit} className="form-columns">
-            {/* Columna izquierda */}
-            <div className="form-column-left">
-              <label>Network ID:</label>
+            {/* Primera línea de inputs */}
+            <div className="input-row">
+              <label htmlFor="network-id" className="label-network-id">Network ID:</label>
               <input
+                id="network-id"
                 type="text"
                 name="id"
                 value={network.id}
                 onChange={handleInputChange}
                 required
+                className="input-network-id"
               />
-  
-              <label>Chain ID:</label>
+              <label htmlFor="chain-id" className="label-chain-id">Chain ID:</label>
               <input
+                id="chain-id"
                 type="text"
                 name="chainId"
                 value={network.chainId}
                 onChange={handleInputChange}
                 required
+                className="input-chain-id"
               />
-  
-              <label>Subnet:</label>
+            </div>
+
+            {/* Segunda línea de inputs */}
+            <div className="input-row">
+              <label htmlFor="subnet" className="label-subnet">Subnet:</label>
               <input
+                id="subnet"
                 type="text"
                 name="subnet"
                 value={network.subnet}
                 onChange={handleInputChange}
                 required
+                className="input-subnet"
               />
-  
-              <label>IP Bootnode:</label>
+              <label htmlFor="ip-bootnode" className="label-ip-bootnode">IP Bootnode:</label>
               <input
+                id="ip-bootnode"
                 type="text"
                 name="ipBootnode"
                 value={network.ipBootnode}
@@ -142,99 +158,103 @@ const AddNetwork: React.FC<AddNetworkProps> = ({ onClose, onNetworkAdded }) => {
                 required
                 pattern="^(?:\d{1,3}\.){3}\d{1,3}$"
                 title="Debe ser una dirección IP válida."
+                className="input-ip-bootnode"
               />
             </div>
-  
-            {/* Columna derecha */}
-            <div className="form-column-right">
-              <h3>Alloc</h3>
-              {network.alloc.map((alloc, index) => (
-                <div key={index} className="alloc-item">
-                  <input
-                    type="text"
-                    placeholder="Cuenta Ethereum"
-                    value={alloc.address}
-                    onChange={(e) => handleAllocChange(index, "address", e.target.value)}
-                    required
-                    pattern="^0x[a-fA-F0-9]{40}$"
-                    title="Debe ser una dirección Ethereum válida."
-                  />
-                  <input
-                    type="number"
-                    placeholder="Saldo"
-                    value={alloc.balance === 0 ? "Saldo" : alloc.balance.toString()}
-                    onChange={(e) =>
-                      handleAllocChange(index, "balance", parseFloat(e.target.value))
-                    }
-                    required
-                    min={0}
-                    title="El saldo debe ser 0 o un número positivo."
-                  />
-                  {network.alloc.length > 1 && (
-                    <button type="button" onClick={() => removeAlloc(index)}>
-                      Eliminar
-                    </button>
-                  )}
-                </div>
-              ))}
-              <button type="button" onClick={addAlloc}>
+
+            {/* Inputs de Alloc */}
+            <h3 className="alloc-title">Alloc:</h3>
+            {network.alloc.map((alloc, index) => (
+              <div key={index} className="alloc-item">
+                <input
+                  type="text"
+                  placeholder="Cuenta Ethereum"
+                  value={alloc.address}
+                  onChange={(e) => handleAllocChange(index, "address", e.target.value)}
+                  required
+                  pattern="^0x[a-fA-F0-9]{40}$"
+                  title="Debe ser una dirección Ethereum válida."
+                />
+                <input
+                  type="number"
+                  placeholder="Saldo"
+                  value={alloc.balance === 0 ? "Saldo" : alloc.balance.toString()}
+                  onChange={(e) =>
+                    handleAllocChange(index, "balance", parseFloat(e.target.value))
+                  }
+                  required
+                  min={0}
+                  title="El saldo debe ser 0 o un número positivo."
+                />
+               {network.alloc.length > 1 && (
+                <img
+                    src="/basura.svg" // Ruta al icono
+                    alt="Eliminar"
+                    className="delete-icon" // Clase para estilizar el icono
+                    onClick={() => removeAlloc(index)} // Lógica para eliminar
+                />
+            )}
+
+              </div>
+            ))}
+           <button type="button" className="new-alloc-button" onClick={addAlloc}>
                 + Nuevo Alloc
-              </button>
-            </div>
-  
-            {/* Nodos (ancho completo) */}
-            <div className="form-full-width">
-              <h3>Nodos</h3>
-              {network.nodos.map((nodo, index) => (
-                <div key={index} className="nodo-item">
-                  <input
-                    type="text"
-                    placeholder="Tipo"
-                    value={nodo.type}
-                    onChange={(e) => handleNodoChange(index, "type", e.target.value)}
-                    required
-                  />
-                  <input
-                    type="text"
-                    placeholder="Nombre"
-                    value={nodo.name}
-                    onChange={(e) => handleNodoChange(index, "name", e.target.value)}
-                    required
-                  />
-                  <input
-                    type="text"
-                    placeholder="IP"
-                    value={nodo.ip}
-                    onChange={(e) => handleNodoChange(index, "ip", e.target.value)}
-                    required
-                    pattern="^(?:\d{1,3}\.){3}\d{1,3}$"
-                    title="Debe ser una dirección IP válida."
-                  />
-                  <input
-                    type="number"
-                    placeholder="Puerto"
-                    value={nodo.port}
-                    onChange={(e) =>
-                      handleNodoChange(index, "port", parseInt(e.target.value, 10))
-                    }
-                    required
-                    min={1}
-                    max={65535}
-                  />
-                  {network.nodos.length > 1 && (
-                    <button type="button" onClick={() => removeNodo(index)}>
-                      Eliminar Nodo
-                    </button>
-                  )}
-                </div>
-              ))}
-              <button type="button" onClick={addNodo}>
-                + Nuevo Nodo
-              </button>
-            </div>
-  
+            </button>
+
+
+            {/* Inputs de Nodo */}
+            <h3 className="nodos-title">Nodos:</h3>
+
+            {network.nodos.map((nodo, index) => (
+              <div key={index} className="nodo-item">
+                <input
+                  type="text"
+                  placeholder="Tipo"
+                  value={nodo.type}
+                  onChange={(e) => handleNodoChange(index, "type", e.target.value)}
+                  required
+                />
+                <input
+                  type="text"
+                  placeholder="Nombre"
+                  value={nodo.name}
+                  onChange={(e) => handleNodoChange(index, "name", e.target.value)}
+                  required
+                />
+                <input
+                  type="text"
+                  placeholder="IP"
+                  value={nodo.ip}
+                  onChange={(e) => handleNodoChange(index, "ip", e.target.value)}
+                  required
+                  pattern="^(?:\d{1,3}\.){3}\d{1,3}$"
+                  title="Debe ser una dirección IP válida."
+                />
+                <input
+                  type="number"
+                  placeholder="Puerto"
+                  value={nodo.port}
+                  onChange={(e) =>
+                    handleNodoChange(index, "port", parseInt(e.target.value, 10))
+                  }
+                  required
+                  min={1}
+                  max={65535}
+                />
+                {network.nodos.length > 1 && (
+                  <button type="button" onClick={() => removeNodo(index)}>
+                    Eliminar Nodo
+                  </button>
+                )}
+              </div>
+            ))}
+          <button type="button" className="new-node-button" onClick={addNodo}>
+          Añadir Nodo
+          </button>
+
+
             {/* Botón Crear Red */}
-            <button type="submit" className="add-network-button">
+            <button type="submit" className="create-network-button">
               Crear Red
             </button>
           </form>
@@ -242,7 +262,8 @@ const AddNetwork: React.FC<AddNetworkProps> = ({ onClose, onNetworkAdded }) => {
       </div>
     </>
   );
-  
 };
 
 export default AddNetwork;
+
+

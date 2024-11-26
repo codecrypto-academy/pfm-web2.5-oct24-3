@@ -45,22 +45,21 @@ export default function Home({ networks, setNetworks }: HomeProps) {
       <button className="add-network-button" onClick={toggleMenu}>
         Añadir Red
       </button>
+  
       {isMenuOpen && (
-        <div className="context-menu floating-menu">
-          <button className="close-menu-button" onClick={closeMenu}>
-            &times;
-          </button>
+        <div className="add-network-context-menu">
+          {/* Eliminamos el botón de cierre aquí porque ya está dentro del modal AddNetwork */}
           <AddNetwork onClose={closeMenu} onNetworkAdded={handleNetworkAdded} />
         </div>
       )}
+  
       {selectedNetwork && (
-        <div className="context-menu floating-menu">
-          <button className="close-menu-button" onClick={closeDetailsMenu}>
-            &times;
-          </button>
+        <div className="network-details-context-menu">
+          {/* Eliminamos el botón de cierre aquí porque ya está dentro del modal NetworkDetails */}
           <NetworkDetails network={selectedNetwork} onClose={closeDetailsMenu} />
         </div>
       )}
+  
       <ListNetworks
         networks={networks}
         setNetworks={setNetworks}
@@ -68,4 +67,5 @@ export default function Home({ networks, setNetworks }: HomeProps) {
       />
     </div>
   );
+  
 }
