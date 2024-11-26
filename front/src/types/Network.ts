@@ -12,10 +12,10 @@ export interface Nodo {
 
 export interface Network {
   id: string;
-  chainId: string; // Cambiado a string según el proyecto
+  chainId: number | undefined;
   subnet: string;
   ipBootnode: string;
-  alloc: Alloc[]; // Array de objetos Alloc
+  alloc: string[]; // Array de objetos Alloc
   nodos: Nodo[]; // Array de nodos
   isUp?: boolean; // Estado opcional
 }

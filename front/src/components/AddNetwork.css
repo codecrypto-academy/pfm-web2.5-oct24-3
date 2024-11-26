@@ -205,6 +205,18 @@
     font-size: 0.85rem;
 }
 
+.nodo-item select {
+    flex: 1;
+    width: 90%;
+    border-radius: 4px;
+    padding: 3px;
+    border: 1px solid #555;
+    background-color: #1a1b26;
+    color: #ffffff;
+    margin-bottom: 10px;
+    font-size: 0.75rem;
+}
+
 .alloc-title {
     text-align: left; /* Mueve el texto hacia la derecha */
     color: #ffffff; /* Cambia el color (por ejemplo, a rojo tomate) */

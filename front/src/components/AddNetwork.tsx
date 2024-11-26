@@ -1,24 +1,20 @@
 import React, { useState } from "react";
 import "./AddNetwork.css";
+import API_BASE_URL from "../apiConfig";
 
 interface Nodo {
   type: string;
   name: string;
   ip: string;
-  port: number;
-}
-
-interface Alloc {
-  address: string;
-  balance: number;
+  port?: number;
 }
 
 interface Network {
   id: string;
-  chainId: string;
+  chainId: number | undefined;
   subnet: string;
   ipBootnode: string;
-  alloc: Alloc[];
+  alloc: string[];
   nodos: Nodo[];
 }
 
@@ -30,10 +26,10 @@ interface AddNetworkProps {
 const AddNetwork: React.FC<AddNetworkProps> = ({ onClose, onNetworkAdded }) => {
   const [network, setNetwork] = useState<Network>({
     id: "",
-    chainId: "",
+    chainId: undefined,
     subnet: "",
     ipBootnode: "",
-    alloc: [{ address: "", balance: 0 }],
+    alloc: [""],
     nodos: [{ type: "", name: "", ip: "", port: 0 }],
   });
 
@@ -44,16 +40,16 @@ const AddNetwork: React.FC<AddNetworkProps> = ({ onClose, onNetworkAdded }) => {
     setNetwork((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleAllocChange = (index: number, field: keyof Alloc, value: string | number) => {
+  const handleAllocChange = (index: number, value: string) => {
     const updatedAlloc = [...network.alloc];
-    updatedAlloc[index] = { ...updatedAlloc[index], [field]: value };
+    updatedAlloc[index] = value;
     setNetwork((prev) => ({ ...prev, alloc: updatedAlloc }));
   };
 
   const addAlloc = () => {
     setNetwork((prev) => ({
       ...prev,
-      alloc: [...prev.alloc, { address: "", balance: 0 }],
+      alloc: [...prev.alloc, ""],
     }));
   };
 
@@ -89,7 +85,19 @@ const AddNetwork: React.FC<AddNetworkProps> = ({ onClose, onNetworkAdded }) => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     console.log("Network data submitted:", network);
-    onNetworkAdded(network);
+    fetch(`${API_BASE_URL}/network`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(network)
+    })
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error('Error al crear la red');
+        }
+      })
+    //onNetworkAdded(network);
     onClose();
   };
 
@@ -127,9 +135,9 @@ const AddNetwork: React.FC<AddNetworkProps> = ({ onClose, onNetworkAdded }) => {
               <label htmlFor="chain-id" className="label-chain-id">Chain ID:</label>
               <input
                 id="chain-id"
-                type="text"
+                type="number"
                 name="chainId"
-                value={network.chainId}
+                value={network.chainId ?? ""}
                 onChange={handleInputChange}
                 required
                 className="input-chain-id"
@@ -169,36 +177,25 @@ const AddNetwork: React.FC<AddNetworkProps> = ({ onClose, onNetworkAdded }) => {
                 <input
                   type="text"
                   placeholder="Cuenta Ethereum"
-                  value={alloc.address}
-                  onChange={(e) => handleAllocChange(index, "address", e.target.value)}
+                  value={alloc}
+                  onChange={(e) => handleAllocChange(index, e.target.value)}
                   required
                   pattern="^0x[a-fA-F0-9]{40}$"
                   title="Debe ser una dirección Ethereum válida."
                 />
-                <input
-                  type="number"
-                  placeholder="Saldo"
-                  value={alloc.balance === 0 ? "Saldo" : alloc.balance.toString()}
-                  onChange={(e) =>
-                    handleAllocChange(index, "balance", parseFloat(e.target.value))
-                  }
-                  required
-                  min={0}
-                  title="El saldo debe ser 0 o un número positivo."
-                />
-               {network.alloc.length > 1 && (
-                <img
+                {network.alloc.length > 1 && (
+                  <img
                     src="/basura.svg" // Ruta al icono
                     alt="Eliminar"
                     className="delete-icon" // Clase para estilizar el icono
                     onClick={() => removeAlloc(index)} // Lógica para eliminar
-                />
-            )}
+                  />
+                )}
 
               </div>
             ))}
-           <button type="button" className="new-alloc-button" onClick={addAlloc}>
-                + Nuevo Alloc
+            <button type="button" className="new-alloc-button" onClick={addAlloc}>
+              + Nuevo Alloc
             </button>
 
 
@@ -207,13 +204,15 @@ const AddNetwork: React.FC<AddNetworkProps> = ({ onClose, onNetworkAdded }) => {
 
             {network.nodos.map((nodo, index) => (
               <div key={index} className="nodo-item">
-                <input
-                  type="text"
-                  placeholder="Tipo"
-                  value={nodo.type}
+                <select
+                  value={nodo.type || "rpc"}
                   onChange={(e) => handleNodoChange(index, "type", e.target.value)}
                   required
-                />
+                >
+                  <option value={"rpc"}>RPC</option>
+                  <option value={"miner"}>Miner</option>
+                  <option value={"normal"}>Normal</option>
+                </select>
                 <input
                   type="text"
                   placeholder="Nombre"
@@ -248,9 +247,9 @@ const AddNetwork: React.FC<AddNetworkProps> = ({ onClose, onNetworkAdded }) => {
                 )}
               </div>
             ))}
-          <button type="button" className="new-node-button" onClick={addNodo}>
-          Añadir Nodo
-          </button>
+            <button type="button" className="new-node-button" onClick={addNodo}>
+              Añadir Nodo
+            </button>
 
 
             {/* Botón Crear Red */}
