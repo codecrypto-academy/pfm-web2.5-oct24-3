@@ -187,8 +187,8 @@ const AddNetwork: React.FC<AddNetworkProps> = ({ onClose }) => {
                 )}
               </div>
             ))}
-            <button type="button" onClick={addAlloc}>
-              + Nuevo Alloc
+            <button type="button" onClick={addAlloc} className="new-alloc-button">
+              Añadir cuenta
             </button>
 
             <h3>Nodos:</h3>
@@ -236,11 +236,15 @@ const AddNetwork: React.FC<AddNetworkProps> = ({ onClose }) => {
                 )}
               </div>
             ))}
-            <button type="button" onClick={addNodo}>
+           <button type="button" onClick={addNodo} className="new-node-button">
               Añadir Nodo
             </button>
 
-            <button type="submit">Crear Red</button>
+
+            <button type="submit" className="create-network-button">
+              Crear Red
+            </button>
+
           </form>
         </div>
       </div>

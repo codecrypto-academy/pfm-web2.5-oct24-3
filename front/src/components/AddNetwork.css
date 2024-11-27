@@ -261,7 +261,7 @@
 
 .new-node-button {
     /* Tamaño */
-    width: 80px; /* Ajusta el ancho */
+    width: 70px; /* Ajusta el ancho */
     height: 30px; /* Ajusta la altura */
     font-size: 0.6rem; /* Tamaño de la fuente */
     padding: 4px 6px; /* Espaciado interno */
@@ -354,6 +354,7 @@
     /* Posición */
     display: block; /* Asegura que el botón se comporte como un bloque */
     margin: 20px auto; /* Centra el botón horizontalmente */
+    margin-top: -20px;
     text-align: center; /* Centra el texto dentro del botón */
 
     /* Interactividad */
