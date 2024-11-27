@@ -7,14 +7,12 @@ interface ListNetworksProps {
   networks: Network[];
   setNetworks: React.Dispatch<React.SetStateAction<Network[]>>;
   onNetworkClick: (network: Network) => void;
-  onDeleteNetwork: (networkId: string) => void; // Propiedad añadida para manejar eliminación
 }
 
 const ListNetworks: React.FC<ListNetworksProps> = ({
   networks,
   setNetworks,
   onNetworkClick,
-  onDeleteNetwork, // Aseguramos que se recibe esta prop
 }) => {
   const handleAction = (action: "up" | "down" | "restart", id: string) => {
     fetch(`${API_BASE_URL}/network/${action}/${id}`, { method: "GET" })
@@ -43,7 +41,7 @@ const ListNetworks: React.FC<ListNetworksProps> = ({
     e.stopPropagation(); // Evitar que el clic abra el menú de detalles
     const confirmDelete = window.confirm("¿Estás seguro de que deseas eliminar esta red?");
     if (confirmDelete) {
-      onDeleteNetwork(networkId); // Llamar a la prop para eliminar la red
+      fetch(`${API_BASE_URL}/network/${networkId}`, { method: "DELETE" })
     }
   };
 
