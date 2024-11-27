@@ -117,13 +117,19 @@ export class NetworkController {
             next(error);
         }
     }
-    
-    public static async getLastBlocksNetwork (req: Request, res: Response, next: NextFunction) {
+
+    public static async getLastBlocksNetwork(req: Request, res: Response, next: NextFunction) {
         try {
+
             const { id } = req.params;
 
-            await networkService.lastBlockNetwordById(id)
-            res.status(200).send();
+            const bloqueList = await networkService.lastBlockNetwordById(id)
+            
+            res.status(200).json({
+                status: "success",
+                data: { bloques: bloqueList }
+            });
+
         } catch (error) {
             next(error);
         }
